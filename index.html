@@ -200,7 +200,7 @@ header {
   border-left: 1px solid rgba(255,255,255,0.10);
 }
 .kpi-split-item-lbl {
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -815,9 +815,9 @@ footer {
 }
 .uce-kpi.gold { background: var(--uce-light); color: #0d2f5e; }
 .uce-kpi.gold::after { background: #0d2f5e; }
-.uce-kpi-lbl { font-size:0.58rem; text-transform:uppercase; letter-spacing:0.8px; opacity:0.65; font-weight:700; margin-bottom:4px; line-height:1.3; }
+.uce-kpi-lbl { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.8px; opacity:0.90; font-weight:800; margin-bottom:4px; line-height:1.3; }
 .uce-kpi-val { font-size:1.85rem; font-weight:900; line-height:1; letter-spacing:-0.5px; }
-.uce-kpi-sub { font-size:0.58rem; margin-top:4px; opacity:0.58; line-height:1.3; }
+.uce-kpi-sub { font-size:0.68rem; margin-top:4px; opacity:0.85; line-height:1.3; }
 
 /* Charts Unicesumar */
 .uce-chart-card {
@@ -969,6 +969,104 @@ footer {
   .uce-pag-layout { grid-template-columns:1fr; }
 }
 
+
+/* ═══ GAUGE META / VELOCÍMETRO ══════════════════════════════ */
+.gauge-wrap {
+  display:flex; flex-direction:column; align-items:center;
+  padding:16px 10px 10px;
+}
+.gauge-svg { overflow:visible; }
+.gauge-valor {
+  font-size:1.9rem; font-weight:900; fill:var(--txt);
+  text-anchor:middle; dominant-baseline:middle;
+}
+.gauge-pct {
+  font-size:0.95rem; font-weight:800; text-anchor:middle;
+}
+.gauge-sub {
+  font-size:0.6rem; text-anchor:middle; fill:var(--sub);
+}
+.gauge-card {
+  background:var(--card); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:0;
+  overflow:hidden;
+}
+.gauge-hdr {
+  background:var(--uce-blue); color:#fff;
+  padding:10px 14px;
+  font-size:0.62rem; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.9px;
+}
+.gauge-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:0;
+}
+.gauge-half {
+  padding:8px 10px; text-align:center;
+  border-right:1px solid var(--border);
+}
+.gauge-half:last-child { border-right:none; }
+.gauge-half-lbl {
+  font-size:0.58rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.8px; color:var(--sub); margin-bottom:3px;
+}
+.gauge-half-val {
+  font-size:1.1rem; font-weight:900; color:var(--txt);
+}
+
+/* ═══ CAPACIDADE UCE ═════════════════════════════════════════ */
+.cap-section {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:12px;
+  margin-bottom:14px;
+}
+.cap-card {
+  background:var(--card); border-radius:var(--r);
+  box-shadow:var(--shadow); overflow:hidden;
+}
+.cap-hdr {
+  padding:10px 14px; color:#fff;
+  font-size:0.62rem; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.9px;
+}
+.cap-hdr.geral   { background:#1565c0; }
+.cap-hdr.interno { background:#00695c; }
+.cap-hdr.externo { background:#5e35b1; }
+.cap-body { padding:12px 14px; }
+.cap-row {
+  display:flex; justify-content:space-between; align-items:baseline;
+  padding:5px 0; border-bottom:1px solid var(--border);
+}
+.cap-row:last-child { border-bottom:none; }
+.cap-lbl { font-size:0.65rem; color:var(--sub); font-weight:600; }
+.cap-val { font-size:0.92rem; font-weight:900; color:var(--txt); }
+.cap-bar-wrap { margin-top:10px; }
+.cap-bar-bg { background:#e0e0e0; border-radius:99px; height:8px; overflow:hidden; }
+.cap-bar-fill { height:100%; border-radius:99px; transition:width 0.8s ease; }
+.cap-bar-lbl {
+  display:flex; justify-content:space-between;
+  font-size:0.62rem; font-weight:700; color:var(--sub);
+  margin-bottom:3px;
+}
+
+/* Tooltip Gauge (mini velocímetro no hover do gráfico) */
+.gauge-tooltip {
+  position:fixed; pointer-events:none; z-index:9999;
+  background:var(--card); border:1px solid var(--border);
+  border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,.18);
+  padding:12px 16px; min-width:220px;
+  opacity:0; transition:opacity .15s;
+}
+.gauge-tooltip.show { opacity:1; }
+.gauge-tooltip-title {
+  font-size:0.62rem; font-weight:800; text-transform:uppercase;
+  letter-spacing:1px; color:var(--sub); margin-bottom:8px;
+}
+@media (max-width:900px) {
+  .cap-section { grid-template-columns:1fr 1fr; }
+  .gauge-grid   { grid-template-columns:1fr; }
+}
+@media (max-width:640px) {
+  .cap-section { grid-template-columns:1fr; }
+}
 
 /* ═══ PRODUTOS UNICESUMAR ═══════════════════════════════════ */
 .uce-prod-grid {
@@ -1487,6 +1585,18 @@ footer {
       <div class="uce-kpi-grid" id="uce-kpi-grid"></div>
     </div>
 
+    <!-- Meta PS51 — Gauge -->
+    <div class="sec">
+      <div class="sec-label" style="border-bottom-color:#1565c0">&#127919; Meta PS51-2026 — Atingimento</div>
+      <div id="uce-meta-section"></div>
+    </div>
+
+    <!-- Capacidade -->
+    <div class="sec">
+      <div class="sec-label" style="border-bottom-color:#1565c0">&#128101; Análise de Capacidade — Unicesumar</div>
+      <div id="uce-cap-section"></div>
+    </div>
+
     <!-- Pagamentos / Taxas -->
     <div class="sec">
       <div class="sec-label" style="border-bottom-color:#1565c0">&#128200; Taxas de Conversão &amp; Pagamentos</div>
@@ -1497,12 +1607,6 @@ footer {
     <div class="sec">
       <div class="sec-label" style="border-bottom-color:#1565c0">&#127760; Origem dos Leads</div>
       <div id="uce-orig-section"></div>
-    </div>
-
-    <!-- Produtos -->
-    <div class="sec">
-      <div class="sec-label" style="border-bottom-color:#1565c0">&#127775; Performance por Produto</div>
-      <div id="uce-prod-section"></div>
     </div>
 
     <!-- Gráficos -->
@@ -1525,6 +1629,12 @@ footer {
           <div class="chart-wrap"><canvas id="c-uce-funil"></canvas></div>
         </div>
       </div>
+    </div>
+
+    <!-- Produtos -->
+    <div class="sec">
+      <div class="sec-label" style="border-bottom-color:#1565c0">&#127775; Performance por Produto</div>
+      <div id="uce-prod-section"></div>
     </div>
 
 
@@ -1663,7 +1773,7 @@ footer {
 
 
 <script>
-const D = {"ultima_data": "11/04/2026", "total_realizado": 47318, "total_mat_uni": 47318, "total_pago_uni": 19591, "total_sem_pago_uni": 27727, "pct_pago_uni": 41.4, "meta_edital": 63694, "pct_meta": 74.3, "total_meta_hag": 29480, "total_realizado_hag": 19568, "total_meta_int": 36391, "total_realizado_int": 27410, "int_com_pag": 11158, "hag_com_pag": 8359, "tkm_int": 20702.1, "tkm_hag": 20765.95, "receita_int": 230993980.0, "receita_hag": 173582588.0, "receita_total_uni": 404576568.0, "hc_int_uni": 49, "hc_hag_uni": 56, "mat_p_hc_int": 559.4, "mat_p_hc_hag": 349.4, "mat_semana": 116, "mat_hag_sem": 1, "mat_interno_sem": 115, "taxa_media": 13.7, "total_conversas": 292915, "total_matriculas": 36742, "taxa_acum": 12.5, "conv_semana": 26779, "mat_conv_semana": 2414, "taxa_semana_conv": 9.0, "conv_marco": 41358, "mat_conv_marco": 3770, "taxa_marco_conv": 9.1, "mat_marco": 3719, "meta_marco_total": 11795, "pct_marco": 31.5, "meta_marco_hag": 5846, "meta_marco_int": 5949, "realizado_marco_hag": 1270, "realizado_marco_int": 2449, "meses_label": ["Nov/25", "Dez/25", "Jan/26", "Fev/26", "Mar/26", "Abr/26"], "hag_realizado": [1680, 2560, 4669, 4572, 4817, 1270], "hag_metas": [0, 0, 0, 0, 0, 0], "interno_realizado": [1651, 4014, 6249, 5939, 7108, 2449], "interno_metas": [0, 0, 0, 0, 0, 0], "ritmo_datas": ["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9", "W10", "W11", "W12", "W13", "W14", "W15", "W16", "W17", "W18", "W19", "W20", "W21", "W22"], "ritmo_interno": [406, 1134, 933, 602, 968, 944, 799, 1310, 1493, 1832, 1367, 1565, 1774, 1063, 1589, 1400, 1904, 1661, 1506, 1638, 1407, 115], "ritmo_hag": [621, 975, 766, 794, 835, 249, 0, 1294, 1067, 1230, 1078, 1186, 1170, 909, 1307, 1285, 1157, 1030, 953, 741, 920, 1], "sem_datas": ["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9", "W10", "W11", "W12", "W13", "W14", "W15", "W16", "W17", "W18", "W19", "W20", "W21", "W22"], "sem_interno": [406, 1134, 933, 602, 968, 944, 799, 1310, 1493, 1832, 1367, 1565, 1774, 1063, 1589, 1400, 1904, 1661, 1506, 1638, 1407, 115], "sem_hag": [621, 975, 766, 794, 835, 249, 0, 1294, 1067, 1230, 1078, 1186, 1170, 909, 1307, 1285, 1157, 1030, 953, 741, 920, 1], "conv_datas": ["09/03", "10/03", "11/03", "12/03", "13/03", "14/03", "16/03", "17/03", "18/03", "19/03", "20/03", "21/03", "23/03", "24/03", "25/03", "26/03", "27/03", "28/03", "30/03", "31/03", "01/04", "02/04", "04/04", "06/04", "07/04", "08/04", "09/04", "10/04", "11/04", "13/04"], "conv_total": [4241.0, 4111.0, 3439.0, 4804.0, 3539.0, 1036.0, 5215.0, 4408.0, 3931.0, 3636.0, 3239.0, 1195.0, 5356.0, 4062.0, 3764.0, 3829.0, 3356.0, 904.0, 5463.0, 4130.0, 3799.0, 9252.0, 1528.0, 5343.0, 4134.0, 3685.0, 3976.0, 3147.0, 1558.0, 4936.0], "conv_matriculas": [712.0, 481.0, 628.0, 625.0, 482.0, 78.0, 616.0, 579.0, 525.0, 552.0, 406.0, 107.0, 520.0, 493.0, 469.0, 514.0, 439.0, 97.0, 541.0, 478.0, 795.0, 481.0, 80.0, 542.0, 415.0, 454.0, 400.0, 437.0, 166.0, 0.0], "conv_taxa": [16.8, 11.7, 18.3, 13.0, 13.6, 7.5, 11.8, 13.1, 13.4, 15.2, 12.5, 9.0, 9.7, 12.1, 12.5, 13.4, 13.1, 10.7, 9.9, 11.6, 20.9, 5.2, 5.2, 10.1, 10.0, 12.3, 10.1, 13.9, 10.7, 0.0], "colaboradores": ["Thaisa Fernanda Tenório da Silveira Fogaça", "Paulo Ricardo Henrique De Sousa Vital", "Nicole Ribeiro Dos Santos", "Sthefani Cristina fava das Graças Nogueira", "Maria Fernanda do Nascimento Justino", "Yasmin dos Santos Moraes", "Roger Cauã Soares de Freitas", "Gleiciane Do Nascimento Dias", "Giulia Leite Delli Colli", "Yara Vidal de Mattos", "João Elias Valero dos Santos", "Nathalia Gagliati Halchuk dos Santos", "Matheus Rinsi Da Silva", "Maria Eduarda Schamber", "Jose mauro silva de paula", "Joao vitor silva ribeiro", "Karlena Crys Ribeiro Da Silva", "Rosivane Lopes de Aquino", "Matheus da Costa de Paula", "Carina Regina Barbosa Pezini", "Rodrigo Guido Marcondes", "Adrielle Letícia Ferreira da Silva de Almeida", "Julia Mantovani Ferro", "Murilo Alexandre de Assis", "Heloyse Abreu Favacho"], "metas_colab": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "ofensores_class": [{"nome": "Curso de Bacharelado", "total": 19989, "pagas": 8375, "nao_pagas": 11614, "pct_nao": 58.1}, {"nome": "Curso Superior de Tecnologia", "total": 16234, "pagas": 6472, "nao_pagas": 9762, "pct_nao": 60.1}, {"nome": "Curso de Licenciatura", "total": 11095, "pagas": 4744, "nao_pagas": 6351, "pct_nao": 57.2}], "ofensores_curso": [{"nome": "Pedagogia", "total": 5366, "pagas": 2237, "nao_pagas": 3129, "pct_nao": 58.3}, {"nome": "Administração", "total": 2599, "pagas": 1023, "nao_pagas": 1576, "pct_nao": 60.6}, {"nome": "Educação Física (Bacharelado)", "total": 2796, "pagas": 1329, "nao_pagas": 1467, "pct_nao": 52.5}, {"nome": "Biomedicina", "total": 1897, "pagas": 675, "nao_pagas": 1222, "pct_nao": 64.4}, {"nome": "Gestão de Recursos Humanos", "total": 1408, "pagas": 506, "nao_pagas": 902, "pct_nao": 64.1}, {"nome": "Terapia Ocupacional", "total": 1440, "pagas": 551, "nao_pagas": 889, "pct_nao": 61.7}, {"nome": "Nutrição", "total": 1589, "pagas": 715, "nao_pagas": 874, "pct_nao": 55.0}, {"nome": "Farmácia", "total": 1254, "pagas": 471, "nao_pagas": 783, "pct_nao": 62.4}, {"nome": "Fisioterapia", "total": 1300, "pagas": 530, "nao_pagas": 770, "pct_nao": 59.2}, {"nome": "Ciências Contábeis", "total": 1346, "pagas": 583, "nao_pagas": 763, "pct_nao": 56.7}, {"nome": "Investigação Forense e Perícia Criminal", "total": 1042, "pagas": 296, "nao_pagas": 746, "pct_nao": 71.6}, {"nome": "Análise e Desenvolvimento de Sistemas", "total": 1066, "pagas": 482, "nao_pagas": 584, "pct_nao": 54.8}, {"nome": "Logística", "total": 965, "pagas": 417, "nao_pagas": 548, "pct_nao": 56.8}, {"nome": "Serviço Social", "total": 887, "pagas": 353, "nao_pagas": 534, "pct_nao": 60.2}, {"nome": "Agronomia", "total": 914, "pagas": 385, "nao_pagas": 529, "pct_nao": 57.9}], "pag_disponivel": true, "pag_total_mat": 34831, "pag_total_pagas": 15206, "pag_total_pendentes": 19625, "pag_taxa": 43.7, "pag_efetivo_mat": 20197, "pag_efetivo_pagas": 8835, "pag_efetivo_taxa": 43.7, "pag_terceira_mat": 14634, "pag_terceira_pagas": 6371, "pag_terceira_taxa": 43.5, "ec": {"ec_disponivel": true, "pos": {"mat_por_mes": [301, 275, 502, 591, 107, 5, 109, 44, 73, 74], "meses": ["NOVEMBRO", "DEZEMBRO", "JANEIRO", "FEVEREIRO", "MARÇO S1 - SEDE", "MARÇO S1 - HOME AGENT", "MARÇO S2 - SEDE", "MARÇO S2 - HOME AGENT", "MARÇO S3 - SEDE", "MARÇO S3 - HOME AGENT"], "total_acum": 2081, "tx_conversao": 15.0, "total_leads": 2626, "total_respostas": 997, "conv_dia": {"SEGUNDA FEIRA": 441, "TERÇA FEIRA": 507, "QUARTA FEIRA": 545, "QUINTA FEIRA": 453, "SEXTA FEIRA": 449, "SÁBADO": 231}, "filas": {"Disparos": 63.4, "Conversão 24h": 33.9, "Ativos": 0.4, "Abandono": 0.2}, "fechamentos": {"SEM RESPOSTA": 62.0, "JÁ É ALUNO": 5.0, "MATRÍCULA REALIZADA": 4.9, "ABANDONO APÓS VALORES": 1.0, "ABANDONO APÓS PRIMEIRA INTERAÇÃO": 1.0}}, "prof": {"mat_por_mes": [111, 145, 143, 70, 12, 24, 23, 135, 20, 104], "meses": ["NOVEMBRO", "DEZEMBRO", "JANEIRO", "FEVEREIRO", "MARÇO SEMANA 1 - SEDE", "MARÇO SEMANA 1 - HOME AGENT", "MARÇO S2 - SEDE", "MARÇO SEMANA 2 - HOME AGENT", "MARÇO S3 - SEDE", "MARÇO S3 - HOME AGENT"], "total_acum": 787, "tx_conversao": 18.0, "total_leads": 2067, "total_respostas": 661, "conv_dia": {"SEGUNDA FEIRA": 635, "TERÇA FEIRA": 545, "QUARTA FEIRA": 429, "QUINTA FEIRA": 143, "SEXTA FEIRA": 236, "SÁBADO": 79}, "filas": {"Disparos": 52.7, "Conversão 24h": 35.2, "Ativos": 11.4, "Abandono": 0.7}, "fechamentos": {"SEM RESPOSTA": 68.0, "MATRÍCULA REALIZADA": 4.7, "REPASSADA INFORMAÇÃO": 4.1, "SEM INTENÇÃO - MOT. PESSOAIS": 1.8, "SEM INTENÇÃO - MOT. ACADÊMICOS": 1.1}}, "tec": {"mat_por_mes": [53, 89, 131, 66, 16, 26, 18, 87, 20, 67], "meses": ["NOVEMBRO", "DEZEMBRO", "JANEIRO", "FEVEREIRO", "MARÇO S1 - SEDE", "MARÇO S1 - HOME AGENT", "MARÇO S2 - SEDE", "MARÇO S2 - HOME AGENT", "MARÇO S3 - SEDE", "MARÇO S3 - HOME AGENT"], "total_acum": 573, "tx_conversao": 17.0, "total_leads": 1536, "total_respostas": 522, "conv_dia": {"SEGUNDA FEIRA": 297, "TERÇA FEIRA": 313, "QUARTA FEIRA": 362, "QUINTA FEIRA": 207, "SEXTA FEIRA": 288, "SÁBADO": 69}, "filas": {"Conversão 24h": 97.1, "Disparos": 1.3, "Abandono": 1.2, "Ativos": 0.4}, "fechamentos": {"SEM RESPOSTA": 66.0, "MATRÍCULA REALIZADA": 5.3, "SEM INTENÇÃO - MOT. PESSOAIS": 2.9, "SEM INTENÇÃO - MOT. ACADÊMICOS": 1.9, "JÁ É ALUNO": 1.7}}}, "hc": {"hc_disponivel": true, "hc_int_count": 47, "hc_hag_count": 42, "hc_total": 89, "mat_p_hc_int": 429.7, "mat_p_hc_hag": 348.4, "mat_p_hc_total": 391.4, "repr_int": 58.0, "repr_hag": 42.0, "tkm_int": 138.16, "tkm_hag": 138.3, "tkm_geral": 138.23, "receita_int": 2724218, "receita_hag": 2003917, "receita_total": 4728135, "ranking_int": [{"nome": "Thaisa Fernanda Tenório da Silveira Fogaça", "mat": 1563, "pagas": 716, "tkm": 137.13, "receita": 214334, "tx_pag": 45.8}, {"nome": "Maria Fernanda do Nascimento Justino", "mat": 1019, "pagas": 464, "tkm": 136.88, "receita": 139481, "tx_pag": 45.5}, {"nome": "Paulo Ricardo Henrique De Sousa Vital", "mat": 1010, "pagas": 436, "tkm": 130.36, "receita": 131664, "tx_pag": 43.2}, {"nome": "Yasmin dos Santos Moraes", "mat": 980, "pagas": 438, "tkm": 133.96, "receita": 131281, "tx_pag": 44.7}, {"nome": "Sthefani Cristina fava das Graças Nogueira", "mat": 962, "pagas": 471, "tkm": 137.95, "receita": 132708, "tx_pag": 49.0}, {"nome": "Roger Cauã Soares de Freitas", "mat": 949, "pagas": 411, "tkm": 136.89, "receita": 129909, "tx_pag": 43.3}, {"nome": "Nicole Ribeiro Dos Santos", "mat": 943, "pagas": 448, "tkm": 136.61, "receita": 128823, "tx_pag": 47.5}, {"nome": "João Elias Valero dos Santos", "mat": 896, "pagas": 354, "tkm": 134.07, "receita": 120127, "tx_pag": 39.5}, {"nome": "Yara Vidal de Mattos", "mat": 864, "pagas": 389, "tkm": 133.93, "receita": 115716, "tx_pag": 45.0}, {"nome": "Nathalia Gagliati Halchuk dos Santos", "mat": 845, "pagas": 355, "tkm": 135.47, "receita": 114472, "tx_pag": 42.0}, {"nome": "Maria Eduarda Schamber", "mat": 831, "pagas": 352, "tkm": 140.79, "receita": 116996, "tx_pag": 42.4}, {"nome": "Giulia Leite Delli Colli", "mat": 822, "pagas": 380, "tkm": 137.43, "receita": 112967, "tx_pag": 46.2}, {"nome": "Joao Vitor Silva Ribeiro", "mat": 792, "pagas": 290, "tkm": 128.28, "receita": 101598, "tx_pag": 36.6}, {"nome": "Jose Mauro Silva de Paula", "mat": 767, "pagas": 313, "tkm": 133.29, "receita": 102233, "tx_pag": 40.8}, {"nome": "Rosivane Lopes de Aquino", "mat": 700, "pagas": 283, "tkm": 127.13, "receita": 88991, "tx_pag": 40.4}, {"nome": "Matheus da Costa de Paula", "mat": 609, "pagas": 285, "tkm": 132.99, "receita": 80991, "tx_pag": 46.8}, {"nome": "Julia Mantovani Ferro", "mat": 607, "pagas": 211, "tkm": 124.58, "receita": 75620, "tx_pag": 34.8}, {"nome": "Adrielle Letícia Ferreira da Silva de Almeida", "mat": 604, "pagas": 300, "tkm": 145.88, "receita": 88112, "tx_pag": 49.7}, {"nome": "Murilo Alexandre de Assis", "mat": 577, "pagas": 255, "tkm": 135.41, "receita": 78132, "tx_pag": 44.2}, {"nome": "Sara Camile Henrique da Silva", "mat": 568, "pagas": 288, "tkm": 144.57, "receita": 82116, "tx_pag": 50.7}, {"nome": "Heloyse Abreu Favacho", "mat": 485, "pagas": 200, "tkm": 126.56, "receita": 61382, "tx_pag": 41.2}, {"nome": "Maria Clara Cesar Panhozzi", "mat": 415, "pagas": 154, "tkm": 130.37, "receita": 54104, "tx_pag": 37.1}, {"nome": "Adriel Wanderlind", "mat": 403, "pagas": 164, "tkm": 131.94, "receita": 53172, "tx_pag": 40.7}, {"nome": "Ana Beatriz Oliveira Rosa", "mat": 355, "pagas": 146, "tkm": 127.08, "receita": 45113, "tx_pag": 41.1}, {"nome": "Marcelo Martins Filho", "mat": 321, "pagas": 137, "tkm": 134.93, "receita": 43313, "tx_pag": 42.7}], "ranking_hag": [{"nome": "Gleiciane Do Nascimento Dias", "mat": 887, "pagas": 391, "tkm": 136.58, "receita": 121146, "tx_pag": 44.1}, {"nome": "Matheus Rinsi Da Silva", "mat": 874, "pagas": 411, "tkm": 136.26, "receita": 119091, "tx_pag": 47.0}, {"nome": "Karlena Crys Ribeiro Da Silva", "mat": 744, "pagas": 295, "tkm": 134.15, "receita": 99808, "tx_pag": 39.7}, {"nome": "Carina Regina Barbosa Pezini", "mat": 640, "pagas": 303, "tkm": 136.74, "receita": 87514, "tx_pag": 47.3}, {"nome": "Rodrigo Guido Marcondes", "mat": 560, "pagas": 267, "tkm": 138.74, "receita": 77694, "tx_pag": 47.7}, {"nome": "Vitoria De Souza Dias", "mat": 499, "pagas": 211, "tkm": 140.94, "receita": 70329, "tx_pag": 42.3}, {"nome": "Ana Caroline Cartoni Lopes", "mat": 489, "pagas": 222, "tkm": 136.09, "receita": 66548, "tx_pag": 45.4}, {"nome": "Bruna Siena", "mat": 488, "pagas": 203, "tkm": 134.23, "receita": 65504, "tx_pag": 41.6}, {"nome": "Nicole da Silva Vicente", "mat": 472, "pagas": 196, "tkm": 137.29, "receita": 64801, "tx_pag": 41.5}, {"nome": "Ryan Guilherme Da Silva Rosa", "mat": 461, "pagas": 188, "tkm": 135.97, "receita": 62682, "tx_pag": 40.8}, {"nome": "Izabela Tahisa Alves Procopio", "mat": 430, "pagas": 187, "tkm": 132.7, "receita": 57061, "tx_pag": 43.5}, {"nome": "Maria Vitoria Marques", "mat": 407, "pagas": 157, "tkm": 141.39, "receita": 57546, "tx_pag": 38.6}, {"nome": "Kawane Alessandra Lourenço Oliveira", "mat": 405, "pagas": 189, "tkm": 136.71, "receita": 55368, "tx_pag": 46.7}, {"nome": "Pedro Lucas Braga Caetano", "mat": 398, "pagas": 191, "tkm": 137.69, "receita": 54801, "tx_pag": 48.0}, {"nome": "Bianca De Souza Pupin", "mat": 384, "pagas": 176, "tkm": 145.94, "receita": 56041, "tx_pag": 45.8}, {"nome": "Viviane Martins De Santana Santos", "mat": 376, "pagas": 174, "tkm": 137.98, "receita": 51880, "tx_pag": 46.3}, {"nome": "Alexia Tainara Taioqui Dos Santos", "mat": 375, "pagas": 164, "tkm": 135.34, "receita": 50752, "tx_pag": 43.7}, {"nome": "Milena Da Silva Rosa", "mat": 374, "pagas": 159, "tkm": 136.9, "receita": 51201, "tx_pag": 42.5}, {"nome": "Gisele Cristina Florentino", "mat": 373, "pagas": 168, "tkm": 137.65, "receita": 51343, "tx_pag": 45.0}, {"nome": "Maria Eduarda Dos Santos Candido", "mat": 355, "pagas": 187, "tkm": 145.24, "receita": 51560, "tx_pag": 52.7}, {"nome": "Cassia Leticia Oliveira Soares", "mat": 336, "pagas": 139, "tkm": 142.42, "receita": 47853, "tx_pag": 41.4}, {"nome": "Kauany Yasmin Vicente Lopes", "mat": 333, "pagas": 116, "tkm": 123.45, "receita": 41109, "tx_pag": 34.8}, {"nome": "Joyce Daya Vieira", "mat": 333, "pagas": 142, "tkm": 129.67, "receita": 43180, "tx_pag": 42.6}, {"nome": "Amanda Das Neves Pacola", "mat": 308, "pagas": 133, "tkm": 135.55, "receita": 41749, "tx_pag": 43.2}, {"nome": "Anna Karolina Cardoso Adriano Rosella", "mat": 297, "pagas": 120, "tkm": 129.68, "receita": 38515, "tx_pag": 40.4}]}, "hc_uni": {"hc_uni_disponivel": true, "hc_int": 40, "hc_hag": 42, "hc_total": 82, "hc_consultores": 40, "hc_analistas": 5, "hc_supervisores": 2}, "uni": {"uni_disponivel": true, "total_mat": 32642, "total_mat_qlk": 10440, "total_ace": 8973, "ace_grad_n": 6940, "ace_cont_n": 2033, "mat_grad_topo": 8519, "mat_ec_topo": 1921, "mat_grad_tot": 28688, "mat_ec_tot": 3954, "total_hag": 13229, "total_qual": 15822, "tx_conv": 66.0, "tx_conv_total": 2.63, "omni_total_uce": 1239270, "hc": 232, "hc_int": 127, "hc_hag": 105, "mat_p_hc": 140.7, "mat_p_dia": 234.8, "bol_venc": 1653, "bol_aven": 119, "ticket": 235.0, "receita_1a_mens": 7670870.0, "meta_uni": 0, "pct_meta": null, "ra_pagos": 0, "pct_ra": 0.0, "hag_mat": 0, "hag_hc": 0, "hag_mat_p_hc": 0.0, "cont": {"mat": 0, "qual": 0, "bol_venc": 0, "bol_aven": 0, "tx_conv": 0.0}, "grad": {"mat": 10440, "qual": 15822, "bol_venc": 1653, "bol_aven": 119, "tx_conv": 66.0}, "ace_c": {"ace": 0}, "ace_g": {"ace": 8973}, "sem_labels": ["W1", "W1", "W1", "W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9", "W10", "W11", "W12", "W13", "W14", "W15", "W16", "W17", "W18", "W19", "W20", "W21", "W22", "W23", "W24", "W25", "W50"], "sem_total": [19, 19, 528, 929, 989, 1052, 1188, 1833, 1463, 1367, 1397, 630, 527, 2105, 1820, 1911, 1951, 2119, 1995, 1200, 2024, 1496, 1453, 979, 489, 255, 278, 1, 7], "sem_grad": [19, 19, 528, 929, 989, 1052, 1188, 1833, 1463, 1367, 1397, 630, 527, 2105, 1820, 1911, 1951, 2119, 1995, 1200, 2024, 1496, 1453, 979, 489, 255, 278, 1, 7], "sem_cont": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "sem_interno": [19, 19, 213, 329, 457, 460, 530, 838, 604, 693, 809, 451, 495, 1347, 1191, 1226, 1242, 1329, 1220, 785, 1324, 876, 912, 512, 373, 255, 278, 1, 7], "sem_hag": [0, 0, 315, 600, 532, 592, 658, 995, 859, 674, 588, 179, 32, 758, 629, 685, 709, 790, 775, 415, 700, 620, 541, 467, 116, 0, 0, 0, 0], "mes_labels": ["JAN/26", "FEB/26", "MAR/26", "APR/26", "OCT/25", "NOV/25", "DEC/25"], "mes_cont": [0, 0, 0, 0, 0, 0, 0], "mes_grad": [2566, 2132, 1687, 392, 449, 1632, 1582], "mes_ace_c": [0, 0, 0, 0, 0, 0, 0], "mes_ace_g": [2640, 2527, 1132, 0, 114, 677, 1265], "mes_interno": [5206, 4659, 2819, 392, 563, 2309, 2847], "mes_hag": [2787, 2681, 1745, 0, 878, 2814, 2324], "mes_mat": [7993, 7340, 4564, 392, 1441, 5123, 5171], "mes_mat_ace_c": [0, 0, 0, 0, 0, 0, 0], "mes_mat_ace_g": [2640, 2527, 1132, 0, 114, 677, 1265], "mes_qual": [0, 0, 0, 0, 0, 0, 0], "mes_tx": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ranking": [{"nome": "GIOVANNA CADIDE CABRAL", "mat": 330, "qlk": 330, "ace": 0, "qual": 554, "tx": 59.6, "bol_venc": 71, "bol_aven": 7}, {"nome": "INGRID KAWANE RIBEIRO MOREIRA", "mat": 292, "qlk": 292, "ace": 0, "qual": 488, "tx": 59.8, "bol_venc": 37, "bol_aven": 4}, {"nome": "GESSICA DA CRUZ BARTURI LUCIANO", "mat": 279, "qlk": 279, "ace": 0, "qual": 420, "tx": 66.4, "bol_venc": 45, "bol_aven": 5}, {"nome": "PEDRO HENRIQUE RIBEIRO DOS SANTOS", "mat": 279, "qlk": 279, "ace": 0, "qual": 416, "tx": 67.1, "bol_venc": 44, "bol_aven": 2}, {"nome": "GABRIEL CANDIDO SILVA", "mat": 277, "qlk": 277, "ace": 0, "qual": 470, "tx": 58.9, "bol_venc": 46, "bol_aven": 5}, {"nome": "BEATRIZ DE OLIVEIRA XAVIER", "mat": 257, "qlk": 257, "ace": 0, "qual": 385, "tx": 66.8, "bol_venc": 38, "bol_aven": 0}, {"nome": "HENRIQUE CAUA CUPERTINO NAVARRO", "mat": 256, "qlk": 256, "ace": 0, "qual": 321, "tx": 79.8, "bol_venc": 11, "bol_aven": 2}, {"nome": "SABRINA SOARES SANTOS GUIDO", "mat": 256, "qlk": 256, "ace": 0, "qual": 415, "tx": 61.7, "bol_venc": 41, "bol_aven": 2}, {"nome": "TALITA ARAUJO DOS SANTOS", "mat": 247, "qlk": 247, "ace": 0, "qual": 489, "tx": 50.5, "bol_venc": 52, "bol_aven": 8}, {"nome": "EDENILSON TEODORO JUNIOR", "mat": 236, "qlk": 236, "ace": 0, "qual": 276, "tx": 85.5, "bol_venc": 15, "bol_aven": 1}, {"nome": "NEIDE DAGUES COSTA", "mat": 234, "qlk": 234, "ace": 0, "qual": 500, "tx": 46.8, "bol_venc": 79, "bol_aven": 3}, {"nome": "HELEN ALMEIDA MAFFIOLETTI", "mat": 228, "qlk": 228, "ace": 0, "qual": 292, "tx": 78.1, "bol_venc": 38, "bol_aven": 0}, {"nome": "JOYCE ANDRESSA DA SILVA VALENTINO", "mat": 226, "qlk": 226, "ace": 0, "qual": 404, "tx": 55.9, "bol_venc": 28, "bol_aven": 8}, {"nome": "ANDREIA FERREIRA DE OLIVEIRA", "mat": 225, "qlk": 225, "ace": 0, "qual": 377, "tx": 59.7, "bol_venc": 29, "bol_aven": 2}, {"nome": "SANDRA REGINA BRAZIEL", "mat": 224, "qlk": 224, "ace": 0, "qual": 423, "tx": 53.0, "bol_venc": 59, "bol_aven": 5}, {"nome": "VANUSA SILVINO", "mat": 221, "qlk": 221, "ace": 0, "qual": 341, "tx": 64.8, "bol_venc": 26, "bol_aven": 2}, {"nome": "WILLYAN GABRIEL LOPES MOREIRA DE ALMEIDA", "mat": 211, "qlk": 211, "ace": 0, "qual": 294, "tx": 71.8, "bol_venc": 14, "bol_aven": 1}, {"nome": "JOSELMA OLIVEIRA JARDIM", "mat": 210, "qlk": 210, "ace": 0, "qual": 399, "tx": 52.6, "bol_venc": 52, "bol_aven": 2}, {"nome": "GIOVANA ROSSI", "mat": 210, "qlk": 210, "ace": 0, "qual": 301, "tx": 69.8, "bol_venc": 27, "bol_aven": 2}, {"nome": "FERNANDA GABRIELLI PERILES", "mat": 204, "qlk": 204, "ace": 0, "qual": 265, "tx": 77.0, "bol_venc": 24, "bol_aven": 0}, {"nome": "MARCOS VINÍCIUS FERREIRA FONTES", "mat": 202, "qlk": 202, "ace": 0, "qual": 307, "tx": 65.8, "bol_venc": 35, "bol_aven": 0}, {"nome": "EVELIN CRISTINI DA SILVA", "mat": 202, "qlk": 202, "ace": 0, "qual": 268, "tx": 75.4, "bol_venc": 34, "bol_aven": 5}, {"nome": "THAYSSA VICTORIA DA SILVA PEREIRA", "mat": 197, "qlk": 197, "ace": 0, "qual": 287, "tx": 68.6, "bol_venc": 22, "bol_aven": 2}, {"nome": "SABRINA MANOELA DOS SANTOS LIMA", "mat": 194, "qlk": 194, "ace": 0, "qual": 333, "tx": 58.3, "bol_venc": 39, "bol_aven": 4}, {"nome": "ANA KAROLINE CRISTO RIBEIRO", "mat": 192, "qlk": 192, "ace": 0, "qual": 216, "tx": 88.9, "bol_venc": 15, "bol_aven": 1}, {"nome": "ISABELA CRISTINA MELO AGOSTINI", "mat": 185, "qlk": 185, "ace": 0, "qual": 259, "tx": 71.4, "bol_venc": 20, "bol_aven": 1}, {"nome": "BRUNA NASCIMENTO DOS SANTOS", "mat": 184, "qlk": 184, "ace": 0, "qual": 266, "tx": 69.2, "bol_venc": 30, "bol_aven": 0}, {"nome": "CELIA DE SOUZA LIMA", "mat": 180, "qlk": 180, "ace": 0, "qual": 439, "tx": 41.0, "bol_venc": 67, "bol_aven": 3}, {"nome": "LEONARDO NEVES DOS SANTOS", "mat": 179, "qlk": 179, "ace": 0, "qual": 348, "tx": 51.4, "bol_venc": 35, "bol_aven": 0}, {"nome": "FERNANDA MAGIOTO", "mat": 179, "qlk": 179, "ace": 0, "qual": 271, "tx": 66.1, "bol_venc": 16, "bol_aven": 5}], "ultima_data": "13/04/2026", "orig_labels": ["Topo de Funil", "Aceleradores", "HAG"], "orig_vals": [10440, 8973, 13229], "produtos": [{"cat": "GRAD", "qual": 9858, "mat": 6486, "tx": 65.8, "bv": 897, "bav": 67, "pct_bar": 100}, {"cat": "GRAD-HIB", "qual": 3629, "mat": 2033, "tx": 56.0, "bv": 462, "bav": 32, "pct_bar": 31}, {"cat": "POS", "qual": 1030, "mat": 916, "tx": 88.9, "bv": 97, "bav": 4, "pct_bar": 14}, {"cat": "PÓS-HIB", "qual": 0, "mat": 19, "tx": 0.0, "bv": 0, "bav": 0, "pct_bar": 0}, {"cat": "TEC", "qual": 811, "mat": 625, "tx": 77.1, "bv": 102, "bav": 12, "pct_bar": 10}, {"cat": "TECPOSENF", "qual": 39, "mat": 28, "tx": 71.8, "bv": 6, "bav": 0, "pct_bar": 0}, {"cat": "TECPOSRAD", "qual": 22, "mat": 20, "tx": 90.9, "bv": 2, "bav": 0, "pct_bar": 0}, {"cat": "TECPOSPOD", "qual": 18, "mat": 12, "tx": 66.7, "bv": 4, "bav": 0, "pct_bar": 0}, {"cat": "PRO", "qual": 414, "mat": 300, "tx": 72.5, "bv": 83, "bav": 4, "pct_bar": 5}], "ps51": {"uni_disponivel": true, "total_mat": 31220, "total_mat_qlk": 9636, "total_ace": 8355, "ace_grad_n": 6449, "ace_cont_n": 1906, "mat_grad_topo": 7846, "mat_ec_topo": 1790, "mat_grad_tot": 27524, "mat_ec_tot": 3696, "total_hag": 13229, "total_qual": 14112, "tx_conv": 68.3, "tx_conv_total": 3.81, "omni_total_uce": 819515, "hc": 230, "hc_int": 125, "hc_hag": 105, "mat_p_hc": 135.7, "mat_p_dia": 245.8, "bol_venc": 1503, "bol_aven": 0, "ticket": 235.0, "receita_1a_mens": 7336700.0, "meta_uni": 0, "pct_meta": null, "ra_pagos": 0, "pct_ra": 0.0, "hag_mat": 0, "hag_hc": 0, "hag_mat_p_hc": 0.0, "cont": {"mat": 0, "qual": 0, "bol_venc": 0, "bol_aven": 0, "tx_conv": 0.0}, "grad": {"mat": 9636, "qual": 14112, "bol_venc": 1503, "bol_aven": 0, "tx_conv": 68.3}, "ace_c": {"ace": 0}, "ace_g": {"ace": 8355}, "sem_labels": ["W1", "W1", "W1", "W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9", "W10", "W11", "W12", "W13", "W14", "W15", "W16", "W17", "W18", "W19", "W20", "W21", "W22", "W50"], "sem_total": [19, 19, 528, 929, 989, 1052, 1188, 1833, 1463, 1367, 1397, 630, 527, 2105, 1820, 1911, 1951, 2119, 1995, 1200, 2024, 1496, 1453, 979, 219, 7], "sem_grad": [19, 19, 528, 929, 989, 1052, 1188, 1833, 1463, 1367, 1397, 630, 527, 2105, 1820, 1911, 1951, 2119, 1995, 1200, 2024, 1496, 1453, 979, 219, 7], "sem_cont": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "sem_interno": [19, 19, 213, 329, 457, 460, 530, 838, 604, 693, 809, 451, 495, 1347, 1191, 1226, 1242, 1329, 1220, 785, 1324, 876, 912, 512, 103, 7], "sem_hag": [0, 0, 315, 600, 532, 592, 658, 995, 859, 674, 588, 179, 32, 758, 629, 685, 709, 790, 775, 415, 700, 620, 541, 467, 116, 0], "mes_labels": ["JAN/26", "FEB/26", "MAR/26", "OCT/25", "NOV/25", "DEC/25"], "mes_cont": [0, 0, 0, 0, 0, 0], "mes_grad": [2566, 2132, 1275, 449, 1632, 1582], "mes_ace_c": [0, 0, 0, 0, 0, 0], "mes_ace_g": [2640, 2527, 1132, 114, 677, 1265], "mes_interno": [5206, 4659, 2407, 563, 2309, 2847], "mes_hag": [2787, 2681, 1745, 878, 2814, 2324], "mes_mat": [7993, 7340, 4152, 1441, 5123, 5171], "mes_mat_ace_c": [0, 0, 0, 0, 0, 0], "mes_mat_ace_g": [2640, 2527, 1132, 114, 677, 1265], "mes_qual": [0, 0, 0, 0, 0, 0], "mes_tx": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ranking": [{"nome": "GIOVANNA CADIDE CABRAL", "mat": 296, "qlk": 296, "ace": 0, "qual": 477, "tx": 62.1, "bol_venc": 65, "bol_aven": 0}, {"nome": "BEATRIZ DE OLIVEIRA XAVIER", "mat": 257, "qlk": 257, "ace": 0, "qual": 385, "tx": 66.8, "bol_venc": 38, "bol_aven": 0}, {"nome": "INGRID KAWANE RIBEIRO MOREIRA", "mat": 256, "qlk": 256, "ace": 0, "qual": 424, "tx": 60.4, "bol_venc": 34, "bol_aven": 0}, {"nome": "PEDRO HENRIQUE RIBEIRO DOS SANTOS", "mat": 252, "qlk": 252, "ace": 0, "qual": 372, "tx": 67.7, "bol_venc": 41, "bol_aven": 0}, {"nome": "GESSICA DA CRUZ BARTURI LUCIANO", "mat": 246, "qlk": 246, "ace": 0, "qual": 353, "tx": 69.7, "bol_venc": 39, "bol_aven": 0}, {"nome": "GABRIEL CANDIDO SILVA", "mat": 242, "qlk": 242, "ace": 0, "qual": 387, "tx": 62.5, "bol_venc": 42, "bol_aven": 0}, {"nome": "HENRIQUE CAUA CUPERTINO NAVARRO", "mat": 234, "qlk": 234, "ace": 0, "qual": 282, "tx": 83.0, "bol_venc": 10, "bol_aven": 0}, {"nome": "SABRINA SOARES SANTOS GUIDO", "mat": 232, "qlk": 232, "ace": 0, "qual": 346, "tx": 67.1, "bol_venc": 27, "bol_aven": 0}, {"nome": "HELEN ALMEIDA MAFFIOLETTI", "mat": 228, "qlk": 228, "ace": 0, "qual": 292, "tx": 78.1, "bol_venc": 38, "bol_aven": 0}, {"nome": "TALITA ARAUJO DOS SANTOS", "mat": 227, "qlk": 227, "ace": 0, "qual": 427, "tx": 53.2, "bol_venc": 50, "bol_aven": 0}, {"nome": "EDENILSON TEODORO JUNIOR", "mat": 224, "qlk": 224, "ace": 0, "qual": 261, "tx": 85.8, "bol_venc": 14, "bol_aven": 0}, {"nome": "NEIDE DAGUES COSTA", "mat": 221, "qlk": 221, "ace": 0, "qual": 470, "tx": 47.0, "bol_venc": 77, "bol_aven": 0}, {"nome": "VANUSA SILVINO", "mat": 219, "qlk": 219, "ace": 0, "qual": 328, "tx": 66.8, "bol_venc": 26, "bol_aven": 0}, {"nome": "SANDRA REGINA BRAZIEL", "mat": 215, "qlk": 215, "ace": 0, "qual": 380, "tx": 56.6, "bol_venc": 54, "bol_aven": 0}, {"nome": "ANDREIA FERREIRA DE OLIVEIRA", "mat": 211, "qlk": 211, "ace": 0, "qual": 337, "tx": 62.6, "bol_venc": 22, "bol_aven": 0}, {"nome": "FERNANDA GABRIELLI PERILES", "mat": 204, "qlk": 204, "ace": 0, "qual": 265, "tx": 77.0, "bol_venc": 24, "bol_aven": 0}, {"nome": "JOSELMA OLIVEIRA JARDIM", "mat": 200, "qlk": 200, "ace": 0, "qual": 371, "tx": 53.9, "bol_venc": 51, "bol_aven": 0}, {"nome": "JOYCE ANDRESSA DA SILVA VALENTINO", "mat": 199, "qlk": 199, "ace": 0, "qual": 325, "tx": 61.2, "bol_venc": 23, "bol_aven": 0}, {"nome": "MARCOS VINÍCIUS FERREIRA FONTES", "mat": 196, "qlk": 196, "ace": 0, "qual": 293, "tx": 66.9, "bol_venc": 33, "bol_aven": 0}, {"nome": "GIOVANA ROSSI", "mat": 192, "qlk": 192, "ace": 0, "qual": 269, "tx": 71.4, "bol_venc": 25, "bol_aven": 0}, {"nome": "WILLYAN GABRIEL LOPES MOREIRA DE ALMEIDA", "mat": 190, "qlk": 190, "ace": 0, "qual": 255, "tx": 74.5, "bol_venc": 12, "bol_aven": 0}, {"nome": "BRUNA NASCIMENTO DOS SANTOS", "mat": 184, "qlk": 184, "ace": 0, "qual": 266, "tx": 69.2, "bol_venc": 30, "bol_aven": 0}, {"nome": "EVELIN CRISTINI DA SILVA", "mat": 183, "qlk": 183, "ace": 0, "qual": 236, "tx": 77.5, "bol_venc": 30, "bol_aven": 0}, {"nome": "THAYSSA VICTORIA DA SILVA PEREIRA", "mat": 181, "qlk": 181, "ace": 0, "qual": 257, "tx": 70.4, "bol_venc": 20, "bol_aven": 0}, {"nome": "SABRINA MANOELA DOS SANTOS LIMA", "mat": 177, "qlk": 177, "ace": 0, "qual": 287, "tx": 61.7, "bol_venc": 34, "bol_aven": 0}, {"nome": "ISABELA CRISTINA MELO AGOSTINI", "mat": 176, "qlk": 176, "ace": 0, "qual": 238, "tx": 73.9, "bol_venc": 18, "bol_aven": 0}, {"nome": "ANA KAROLINE CRISTO RIBEIRO", "mat": 174, "qlk": 174, "ace": 0, "qual": 195, "tx": 89.2, "bol_venc": 14, "bol_aven": 0}, {"nome": "LEONARDO NEVES DOS SANTOS", "mat": 171, "qlk": 171, "ace": 0, "qual": 325, "tx": 52.6, "bol_venc": 31, "bol_aven": 0}, {"nome": "TAUANY BEZERRA DE SOUZA", "mat": 165, "qlk": 165, "ace": 0, "qual": 241, "tx": 68.5, "bol_venc": 27, "bol_aven": 0}, {"nome": "CAROLINE SILVA SANTOS", "mat": 164, "qlk": 164, "ace": 0, "qual": 185, "tx": 88.6, "bol_venc": 8, "bol_aven": 0}], "ultima_data": "26/03/2026", "orig_labels": ["Topo de Funil", "Aceleradores", "HAG"], "orig_vals": [9636, 8355, 13229], "produtos": [{"cat": "GRAD", "qual": 8759, "mat": 5966, "tx": 68.1, "bv": 813, "bav": 0, "pct_bar": 100}, {"cat": "GRAD-HIB", "qual": 3207, "mat": 1880, "tx": 58.6, "bv": 421, "bav": 0, "pct_bar": 32}, {"cat": "POS", "qual": 971, "mat": 869, "tx": 89.5, "bv": 87, "bav": 0, "pct_bar": 15}, {"cat": "PÓS-HIB", "qual": 0, "mat": 19, "tx": 0.0, "bv": 0, "bav": 0, "pct_bar": 0}, {"cat": "TEC", "qual": 736, "mat": 582, "tx": 79.1, "bv": 91, "bav": 0, "pct_bar": 10}, {"cat": "TECPOSENF", "qual": 37, "mat": 27, "tx": 73.0, "bv": 5, "bav": 0, "pct_bar": 0}, {"cat": "TECPOSRAD", "qual": 22, "mat": 20, "tx": 90.9, "bv": 2, "bav": 0, "pct_bar": 0}, {"cat": "TECPOSPOD", "qual": 17, "mat": 12, "tx": 70.6, "bv": 4, "bav": 0, "pct_bar": 0}, {"cat": "PRO", "qual": 363, "mat": 261, "tx": 71.9, "bv": 80, "bav": 0, "pct_bar": 4}]}, "ps52": {"uni_disponivel": true, "total_mat": 1422, "total_mat_qlk": 804, "total_ace": 618, "ace_grad_n": 491, "ace_cont_n": 127, "mat_grad_topo": 673, "mat_ec_topo": 131, "mat_grad_tot": 1164, "mat_ec_tot": 258, "total_hag": 0, "total_qual": 1710, "tx_conv": 47.0, "tx_conv_total": 0.34, "omni_total_uce": 419755, "hc": 72, "hc_int": 72, "hc_hag": 0, "mat_p_hc": 19.8, "mat_p_dia": 0.1, "bol_venc": 150, "bol_aven": 119, "ticket": 235.0, "receita_1a_mens": 334170.0, "meta_uni": 0, "pct_meta": null, "ra_pagos": 0, "pct_ra": 0.0, "hag_mat": 0, "hag_hc": 0, "hag_mat_p_hc": 0.0, "cont": {"mat": 0, "qual": 0, "bol_venc": 0, "bol_aven": 0, "tx_conv": 0.0}, "grad": {"mat": 804, "qual": 1710, "bol_venc": 150, "bol_aven": 119, "tx_conv": 47.0}, "ace_c": {"ace": 0}, "ace_g": {"ace": 618}, "sem_labels": ["W21", "W22", "W23", "W24", "W24", "W25"], "sem_total": [1, 412, 456, 1, 527, 23], "sem_grad": [1, 412, 456, 1, 527, 23], "sem_cont": [0, 0, 0, 0, 0, 0], "sem_interno": [1, 412, 456, 1, 527, 23], "sem_hag": [0, 0, 0, 0, 0, 0], "mes_labels": ["MAR/26", "APR/26", "APR/06", "MAR/82"], "mes_cont": [0, 0, 0, 0], "mes_grad": [412, 392, 0, 0], "mes_ace_c": [0, 0, 0, 0], "mes_ace_g": [239, 375, 1, 1], "mes_interno": [651, 767, 1, 1], "mes_hag": [0, 0, 0, 0], "mes_mat": [651, 767, 1, 1], "mes_mat_ace_c": [0, 0, 0, 0], "mes_mat_ace_g": [239, 375, 1, 1], "mes_qual": [0, 0, 0, 0], "mes_tx": [0.0, 0.0, 0.0, 0.0], "ranking": [{"nome": "VICTOR KENDY KOZINA", "mat": 38, "qlk": 38, "ace": 0, "qual": 70, "tx": 54.3, "bol_venc": 3, "bol_aven": 2}, {"nome": "INGRID KAWANE RIBEIRO MOREIRA", "mat": 36, "qlk": 36, "ace": 0, "qual": 64, "tx": 56.2, "bol_venc": 3, "bol_aven": 4}, {"nome": "GABRIEL CANDIDO SILVA", "mat": 35, "qlk": 35, "ace": 0, "qual": 83, "tx": 42.2, "bol_venc": 4, "bol_aven": 5}, {"nome": "GIOVANNA CADIDE CABRAL", "mat": 34, "qlk": 34, "ace": 0, "qual": 77, "tx": 44.2, "bol_venc": 6, "bol_aven": 7}, {"nome": "GESSICA DA CRUZ BARTURI LUCIANO", "mat": 33, "qlk": 33, "ace": 0, "qual": 67, "tx": 49.3, "bol_venc": 6, "bol_aven": 5}, {"nome": "LEANDRA SANTOS LORENZETTI", "mat": 27, "qlk": 27, "ace": 0, "qual": 77, "tx": 35.1, "bol_venc": 5, "bol_aven": 3}, {"nome": "JOYCE ANDRESSA DA SILVA VALENTINO", "mat": 27, "qlk": 27, "ace": 0, "qual": 79, "tx": 34.2, "bol_venc": 5, "bol_aven": 8}, {"nome": "PEDRO HENRIQUE RIBEIRO DOS SANTOS", "mat": 27, "qlk": 27, "ace": 0, "qual": 44, "tx": 61.4, "bol_venc": 3, "bol_aven": 2}, {"nome": "SABRINA SOARES SANTOS GUIDO", "mat": 24, "qlk": 24, "ace": 0, "qual": 69, "tx": 34.8, "bol_venc": 14, "bol_aven": 2}, {"nome": "HENRIQUE CAUA CUPERTINO NAVARRO", "mat": 22, "qlk": 22, "ace": 0, "qual": 39, "tx": 56.4, "bol_venc": 1, "bol_aven": 2}, {"nome": "WILLYAN GABRIEL LOPES MOREIRA DE ALMEIDA", "mat": 21, "qlk": 21, "ace": 0, "qual": 39, "tx": 53.8, "bol_venc": 2, "bol_aven": 1}, {"nome": "SANDER MIGUEL FIGUEROA", "mat": 21, "qlk": 21, "ace": 0, "qual": 36, "tx": 58.3, "bol_venc": 1, "bol_aven": 0}, {"nome": "TALITA ARAUJO DOS SANTOS", "mat": 20, "qlk": 20, "ace": 0, "qual": 62, "tx": 32.3, "bol_venc": 2, "bol_aven": 8}, {"nome": "EVELIN CRISTINI DA SILVA", "mat": 19, "qlk": 19, "ace": 0, "qual": 32, "tx": 59.4, "bol_venc": 4, "bol_aven": 5}, {"nome": "GIOVANA ROSSI", "mat": 18, "qlk": 18, "ace": 0, "qual": 32, "tx": 56.2, "bol_venc": 2, "bol_aven": 2}, {"nome": "ANA KAROLINE CRISTO RIBEIRO", "mat": 18, "qlk": 18, "ace": 0, "qual": 21, "tx": 85.7, "bol_venc": 1, "bol_aven": 1}, {"nome": "JULIA CAROLINE DA SILVA PESSOA", "mat": 17, "qlk": 17, "ace": 0, "qual": 24, "tx": 70.8, "bol_venc": 2, "bol_aven": 1}, {"nome": "SABRINA MANOELA DOS SANTOS LIMA", "mat": 17, "qlk": 17, "ace": 0, "qual": 46, "tx": 37.0, "bol_venc": 5, "bol_aven": 4}, {"nome": "CELIA DE SOUZA LIMA", "mat": 17, "qlk": 17, "ace": 0, "qual": 59, "tx": 28.8, "bol_venc": 3, "bol_aven": 3}, {"nome": "NATALIA ALMEIDA LIMA MORAIS", "mat": 16, "qlk": 16, "ace": 0, "qual": 18, "tx": 88.9, "bol_venc": 2, "bol_aven": 0}, {"nome": "GUSTAVO QUALHO CAZONI", "mat": 16, "qlk": 16, "ace": 0, "qual": 34, "tx": 47.1, "bol_venc": 0, "bol_aven": 4}, {"nome": "THAYSSA VICTORIA DA SILVA PEREIRA", "mat": 16, "qlk": 16, "ace": 0, "qual": 30, "tx": 53.3, "bol_venc": 2, "bol_aven": 2}, {"nome": "JULIE NDINGA ZEFERINO DA SILVA", "mat": 16, "qlk": 16, "ace": 0, "qual": 24, "tx": 66.7, "bol_venc": 2, "bol_aven": 2}, {"nome": "FERNANDA MAGIOTO", "mat": 15, "qlk": 15, "ace": 0, "qual": 41, "tx": 36.6, "bol_venc": 2, "bol_aven": 5}, {"nome": "ANDREIA FERREIRA DE OLIVEIRA", "mat": 14, "qlk": 14, "ace": 0, "qual": 40, "tx": 35.0, "bol_venc": 7, "bol_aven": 2}, {"nome": "BEATRIZ MOREIRA DE MARIA", "mat": 14, "qlk": 14, "ace": 0, "qual": 22, "tx": 63.6, "bol_venc": 3, "bol_aven": 2}, {"nome": "AMANDA DA SILVA MARTINS", "mat": 14, "qlk": 14, "ace": 0, "qual": 25, "tx": 56.0, "bol_venc": 3, "bol_aven": 2}, {"nome": "NEIDE DAGUES COSTA", "mat": 13, "qlk": 13, "ace": 0, "qual": 30, "tx": 43.3, "bol_venc": 2, "bol_aven": 3}, {"nome": "EMILY EMANUELLY DE SOUZA", "mat": 12, "qlk": 12, "ace": 0, "qual": 21, "tx": 57.1, "bol_venc": 2, "bol_aven": 6}, {"nome": "EDENILSON TEODORO JUNIOR", "mat": 12, "qlk": 12, "ace": 0, "qual": 15, "tx": 80.0, "bol_venc": 1, "bol_aven": 1}], "ultima_data": "13/04/2026", "orig_labels": ["Topo de Funil", "Aceleradores", "HAG"], "orig_vals": [804, 618, 0], "produtos": [{"cat": "GRAD", "qual": 1099, "mat": 520, "tx": 47.3, "bv": 84, "bav": 67, "pct_bar": 100}, {"cat": "GRAD-HIB", "qual": 422, "mat": 153, "tx": 36.3, "bv": 41, "bav": 32, "pct_bar": 29}, {"cat": "POS", "qual": 59, "mat": 47, "tx": 79.7, "bv": 10, "bav": 4, "pct_bar": 9}, {"cat": "PÓS-HIB", "qual": 0, "mat": 0, "tx": 0.0, "bv": 0, "bav": 0, "pct_bar": 0}, {"cat": "TEC", "qual": 75, "mat": 43, "tx": 57.3, "bv": 11, "bav": 12, "pct_bar": 8}, {"cat": "TECPOSENF", "qual": 2, "mat": 1, "tx": 50.0, "bv": 1, "bav": 0, "pct_bar": 0}, {"cat": "TECPOSRAD", "qual": 0, "mat": 0, "tx": 0.0, "bv": 0, "bav": 0, "pct_bar": 0}, {"cat": "TECPOSPOD", "qual": 1, "mat": 0, "tx": 0.0, "bv": 0, "bav": 0, "pct_bar": 0}, {"cat": "PRO", "qual": 51, "mat": 39, "tx": 76.5, "bv": 3, "bav": 4, "pct_bar": 8}]}}, "hag_uce": {"hag_disponivel": true, "hag_mat": 13229, "hag_hc": 42, "hag_mat_p_hc": 315.0, "hag_grad": 13229, "hag_ranking": [{"nome": "Heloisa Joanis De Oliveira", "mat": 592}, {"nome": "Alana Frozza da Silveira", "mat": 516}, {"nome": "Pietro Roberto Leme do Prado", "mat": 472}, {"nome": "Gleice Kelly Leite Pineli", "mat": 439}, {"nome": "Luana Silva De Almeida Prado", "mat": 410}, {"nome": "Pedro De Souza Pupin", "mat": 400}, {"nome": "Amanda Beatriz Sence", "mat": 392}, {"nome": "João Paulo Ferrari", "mat": 374}, {"nome": "Vitória Suligo Martins", "mat": 370}, {"nome": "Thiago Bossa Alves", "mat": 365}, {"nome": "Nathalia Caroline De Souza Lima", "mat": 359}, {"nome": "Isabelly Cristina Alves Pereira Moi", "mat": 342}, {"nome": "Rayana Garcia", "mat": 331}, {"nome": "Isadora de Morais Antonelli", "mat": 327}, {"nome": "Lucas Felipe Dornelas Fugi", "mat": 322}, {"nome": "Davi Rizo", "mat": 318}, {"nome": "Isabela Dutra De Souza", "mat": 313}, {"nome": "Murilo Pivatto dos Santos", "mat": 303}, {"nome": "Bianca Evangelista Troli", "mat": 291}, {"nome": "Heloisa Fagundes Freire", "mat": 274}, {"nome": "Paulo Henrique Garcia Dos Santos", "mat": 272}, {"nome": "Kauã Vieira De Araujo", "mat": 269}, {"nome": "Rayane Pereira Miotto", "mat": 262}, {"nome": "Ariane Mayer", "mat": 260}, {"nome": "Otavio Henrique Rocha", "mat": 235}, {"nome": "Sander Miguel Figueroa", "mat": 234}, {"nome": "Gabriel Capel", "mat": 232}, {"nome": "Kataryne Kayane Dos Santos", "mat": 231}, {"nome": "Erika Paz Silva", "mat": 222}, {"nome": "Maria Heloisa Da Silva Dourado", "mat": 221}], "hag_mes_labels": ["OCT/25", "NOV/25", "DEC/25", "JAN/26", "FEB/26", "MAR/26"], "hag_mes_vals": [878, 2814, 2324, 2787, 2681, 1745], "hag_ultima_data": "23/03/2026"}, "omni": {"omni_disponivel": true, "omni_total": 1239270, "omni_mes_labels": ["Nov/25", "Dez/25", "Jan/26", "Fev/26", "Mar/26", "Abr/26"], "omni_mes_vals": [174231, 307514, 232510, 198991, 260864, 65160], "omni_reasons": [{"nome": "Inatividade do time ou vendedor", "cnt": 322444}, {"nome": "inatividade_final_copiloto_inatividade", "cnt": 181483}, {"nome": "Sem retorno do candidato", "cnt": 169131}, {"nome": "Sem contato", "cnt": 157517}, {"nome": "Abandonou a conversa", "cnt": 89436}, {"nome": "Não respondeu", "cnt": 51351}, {"nome": "Sem interação", "cnt": 24993}, {"nome": "Encerrado - Motivo não informado", "cnt": 18116}, {"nome": "Aceitou oferta", "cnt": 13324}, {"nome": "Matrícula Realizada", "cnt": 12153}, {"nome": "Já é aluno", "cnt": 11016}, {"nome": "Não aceitou a campanha atual", "cnt": 9573}, {"nome": "Aceitou assistência", "cnt": 9307}, {"nome": "Já está matriculado", "cnt": 8830}, {"nome": "MASSIVE_FINISHED_NO_CLOSING_REASON", "cnt": 8133}], "omni_teams": [{"nome": "Captação - Hag Machado", "cnt": 453796}, {"nome": "CAPTAÇÃO EAD_MULTICANAIS", "cnt": 304723}, {"nome": "COMERCIAL PRESENCIAL - MARINGÁ/PR", "cnt": 121989}, {"nome": "COMERCIAL PRESENCIAL - LONDRINA/PR", "cnt": 83753}, {"nome": "HAG - Educação Continuada", "cnt": 37187}, {"nome": "CAPTAÇÃO EAD - PÓS-GRADUACAO", "cnt": 36677}, {"nome": "CAPTAÇÃO EAD - GRADUAÇÃO", "cnt": 33126}, {"nome": "COMERCIAL PRESENCIAL - CURITIBA/PR", "cnt": 23546}, {"nome": "CAPTAÇÃO EAD - PROFISSIONALIZANTES", "cnt": 19040}, {"nome": "CAPTAÇÃO EAD - TÉCNICOS", "cnt": 18582}, {"nome": "CAPTAÇÃO EAD - ATIVO", "cnt": 18214}, {"nome": "CAPTAÇÃO PRESENCIAL - MEDICINA MARINGÁ", "cnt": 15398}, {"nome": "Captação - Hag Machado - Continuada", "cnt": 14733}, {"nome": "COMERCIAL PRESENCIAL - PONTA GROSSA/PR", "cnt": 12459}, {"nome": "CAPTAÇÃO EAD - ASSISTÊNCIA", "cnt": 9947}], "omni_origins": {"OUTBOUND": 1033050, "INBOUND": 204791, "ADS": 152, "UNKNOWN": 2}}};
+const D = {"ultima_data": "11/04/2026", "total_realizado": 47318, "total_mat_uni": 47318, "total_pago_uni": 19591, "total_sem_pago_uni": 27727, "pct_pago_uni": 41.4, "meta_edital": 63694, "pct_meta": 74.3, "total_meta_hag": 29480, "total_realizado_hag": 19568, "total_meta_int": 36391, "total_realizado_int": 27410, "int_com_pag": 11158, "hag_com_pag": 8359, "tkm_int": 20702.1, "tkm_hag": 20765.95, "receita_int": 230993980.0, "receita_hag": 173582588.0, "receita_total_uni": 404576568.0, "hc_int_uni": 49, "hc_hag_uni": 56, "mat_p_hc_int": 559.4, "mat_p_hc_hag": 349.4, "mat_semana": 116, "mat_hag_sem": 1, "mat_interno_sem": 115, "taxa_media": 13.7, "total_conversas": 292915, "total_matriculas": 36742, "taxa_acum": 12.5, "conv_semana": 26779, "mat_conv_semana": 2414, "taxa_semana_conv": 9.0, "conv_marco": 41358, "mat_conv_marco": 3770, "taxa_marco_conv": 9.1, "mat_marco": 3719, "meta_marco_total": 11795, "pct_marco": 31.5, "meta_marco_hag": 5846, "meta_marco_int": 5949, "realizado_marco_hag": 1270, "realizado_marco_int": 2449, "meses_label": ["Nov/25", "Dez/25", "Jan/26", "Fev/26", "Mar/26", "Abr/26"], "hag_realizado": [1680, 2560, 4669, 4572, 4817, 1270], "hag_metas": [0, 0, 0, 0, 0, 0], "interno_realizado": [1651, 4014, 6249, 5939, 7108, 2449], "interno_metas": [0, 0, 0, 0, 0, 0], "ritmo_datas": ["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9", "W10", "W11", "W12", "W13", "W14", "W15", "W16", "W17", "W18", "W19", "W20", "W21", "W22"], "ritmo_interno": [406, 1134, 933, 602, 968, 944, 799, 1310, 1493, 1832, 1367, 1565, 1774, 1063, 1589, 1400, 1904, 1661, 1506, 1638, 1407, 115], "ritmo_hag": [621, 975, 766, 794, 835, 249, 0, 1294, 1067, 1230, 1078, 1186, 1170, 909, 1307, 1285, 1157, 1030, 953, 741, 920, 1], "sem_datas": ["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9", "W10", "W11", "W12", "W13", "W14", "W15", "W16", "W17", "W18", "W19", "W20", "W21", "W22"], "sem_interno": [406, 1134, 933, 602, 968, 944, 799, 1310, 1493, 1832, 1367, 1565, 1774, 1063, 1589, 1400, 1904, 1661, 1506, 1638, 1407, 115], "sem_hag": [621, 975, 766, 794, 835, 249, 0, 1294, 1067, 1230, 1078, 1186, 1170, 909, 1307, 1285, 1157, 1030, 953, 741, 920, 1], "conv_datas": ["09/03", "10/03", "11/03", "12/03", "13/03", "14/03", "16/03", "17/03", "18/03", "19/03", "20/03", "21/03", "23/03", "24/03", "25/03", "26/03", "27/03", "28/03", "30/03", "31/03", "01/04", "02/04", "04/04", "06/04", "07/04", "08/04", "09/04", "10/04", "11/04", "13/04"], "conv_total": [4241.0, 4111.0, 3439.0, 4804.0, 3539.0, 1036.0, 5215.0, 4408.0, 3931.0, 3636.0, 3239.0, 1195.0, 5356.0, 4062.0, 3764.0, 3829.0, 3356.0, 904.0, 5463.0, 4130.0, 3799.0, 9252.0, 1528.0, 5343.0, 4134.0, 3685.0, 3976.0, 3147.0, 1558.0, 4936.0], "conv_matriculas": [712.0, 481.0, 628.0, 625.0, 482.0, 78.0, 616.0, 579.0, 525.0, 552.0, 406.0, 107.0, 520.0, 493.0, 469.0, 514.0, 439.0, 97.0, 541.0, 478.0, 795.0, 481.0, 80.0, 542.0, 415.0, 454.0, 400.0, 437.0, 166.0, 0.0], "conv_taxa": [16.8, 11.7, 18.3, 13.0, 13.6, 7.5, 11.8, 13.1, 13.4, 15.2, 12.5, 9.0, 9.7, 12.1, 12.5, 13.4, 13.1, 10.7, 9.9, 11.6, 20.9, 5.2, 5.2, 10.1, 10.0, 12.3, 10.1, 13.9, 10.7, 0.0], "colaboradores": ["Thaisa Fernanda Tenório da Silveira Fogaça", "Paulo Ricardo Henrique De Sousa Vital", "Nicole Ribeiro Dos Santos", "Sthefani Cristina fava das Graças Nogueira", "Maria Fernanda do Nascimento Justino", "Yasmin dos Santos Moraes", "Roger Cauã Soares de Freitas", "Gleiciane Do Nascimento Dias", "Giulia Leite Delli Colli", "Yara Vidal de Mattos", "João Elias Valero dos Santos", "Nathalia Gagliati Halchuk dos Santos", "Matheus Rinsi Da Silva", "Maria Eduarda Schamber", "Jose mauro silva de paula", "Joao vitor silva ribeiro", "Karlena Crys Ribeiro Da Silva", "Rosivane Lopes de Aquino", "Matheus da Costa de Paula", "Carina Regina Barbosa Pezini", "Rodrigo Guido Marcondes", "Adrielle Letícia Ferreira da Silva de Almeida", "Julia Mantovani Ferro", "Murilo Alexandre de Assis", "Heloyse Abreu Favacho"], "metas_colab": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "ofensores_class": [{"nome": "Curso de Bacharelado", "total": 19989, "pagas": 8375, "nao_pagas": 11614, "pct_nao": 58.1}, {"nome": "Curso Superior de Tecnologia", "total": 16234, "pagas": 6472, "nao_pagas": 9762, "pct_nao": 60.1}, {"nome": "Curso de Licenciatura", "total": 11095, "pagas": 4744, "nao_pagas": 6351, "pct_nao": 57.2}], "ofensores_curso": [{"nome": "Pedagogia", "total": 5366, "pagas": 2237, "nao_pagas": 3129, "pct_nao": 58.3}, {"nome": "Administração", "total": 2599, "pagas": 1023, "nao_pagas": 1576, "pct_nao": 60.6}, {"nome": "Educação Física (Bacharelado)", "total": 2796, "pagas": 1329, "nao_pagas": 1467, "pct_nao": 52.5}, {"nome": "Biomedicina", "total": 1897, "pagas": 675, "nao_pagas": 1222, "pct_nao": 64.4}, {"nome": "Gestão de Recursos Humanos", "total": 1408, "pagas": 506, "nao_pagas": 902, "pct_nao": 64.1}, {"nome": "Terapia Ocupacional", "total": 1440, "pagas": 551, "nao_pagas": 889, "pct_nao": 61.7}, {"nome": "Nutrição", "total": 1589, "pagas": 715, "nao_pagas": 874, "pct_nao": 55.0}, {"nome": "Farmácia", "total": 1254, "pagas": 471, "nao_pagas": 783, "pct_nao": 62.4}, {"nome": "Fisioterapia", "total": 1300, "pagas": 530, "nao_pagas": 770, "pct_nao": 59.2}, {"nome": "Ciências Contábeis", "total": 1346, "pagas": 583, "nao_pagas": 763, "pct_nao": 56.7}, {"nome": "Investigação Forense e Perícia Criminal", "total": 1042, "pagas": 296, "nao_pagas": 746, "pct_nao": 71.6}, {"nome": "Análise e Desenvolvimento de Sistemas", "total": 1066, "pagas": 482, "nao_pagas": 584, "pct_nao": 54.8}, {"nome": "Logística", "total": 965, "pagas": 417, "nao_pagas": 548, "pct_nao": 56.8}, {"nome": "Serviço Social", "total": 887, "pagas": 353, "nao_pagas": 534, "pct_nao": 60.2}, {"nome": "Agronomia", "total": 914, "pagas": 385, "nao_pagas": 529, "pct_nao": 57.9}], "pag_disponivel": true, "pag_total_mat": 34831, "pag_total_pagas": 15206, "pag_total_pendentes": 19625, "pag_taxa": 43.7, "pag_efetivo_mat": 20197, "pag_efetivo_pagas": 8835, "pag_efetivo_taxa": 43.7, "pag_terceira_mat": 14634, "pag_terceira_pagas": 6371, "pag_terceira_taxa": 43.5, "ec": {"ec_disponivel": true, "pos": {"mat_por_mes": [301, 275, 502, 591, 107, 5, 109, 44, 73, 74], "meses": ["NOVEMBRO", "DEZEMBRO", "JANEIRO", "FEVEREIRO", "MARÇO S1 - SEDE", "MARÇO S1 - HOME AGENT", "MARÇO S2 - SEDE", "MARÇO S2 - HOME AGENT", "MARÇO S3 - SEDE", "MARÇO S3 - HOME AGENT"], "total_acum": 2081, "tx_conversao": 15.0, "total_leads": 2626, "total_respostas": 997, "conv_dia": {"SEGUNDA FEIRA": 441, "TERÇA FEIRA": 507, "QUARTA FEIRA": 545, "QUINTA FEIRA": 453, "SEXTA FEIRA": 449, "SÁBADO": 231}, "filas": {"Disparos": 63.4, "Conversão 24h": 33.9, "Ativos": 0.4, "Abandono": 0.2}, "fechamentos": {"SEM RESPOSTA": 62.0, "JÁ É ALUNO": 5.0, "MATRÍCULA REALIZADA": 4.9, "ABANDONO APÓS VALORES": 1.0, "ABANDONO APÓS PRIMEIRA INTERAÇÃO": 1.0}}, "prof": {"mat_por_mes": [111, 145, 143, 70, 12, 24, 23, 135, 20, 104], "meses": ["NOVEMBRO", "DEZEMBRO", "JANEIRO", "FEVEREIRO", "MARÇO SEMANA 1 - SEDE", "MARÇO SEMANA 1 - HOME AGENT", "MARÇO S2 - SEDE", "MARÇO SEMANA 2 - HOME AGENT", "MARÇO S3 - SEDE", "MARÇO S3 - HOME AGENT"], "total_acum": 787, "tx_conversao": 18.0, "total_leads": 2067, "total_respostas": 661, "conv_dia": {"SEGUNDA FEIRA": 635, "TERÇA FEIRA": 545, "QUARTA FEIRA": 429, "QUINTA FEIRA": 143, "SEXTA FEIRA": 236, "SÁBADO": 79}, "filas": {"Disparos": 52.7, "Conversão 24h": 35.2, "Ativos": 11.4, "Abandono": 0.7}, "fechamentos": {"SEM RESPOSTA": 68.0, "MATRÍCULA REALIZADA": 4.7, "REPASSADA INFORMAÇÃO": 4.1, "SEM INTENÇÃO - MOT. PESSOAIS": 1.8, "SEM INTENÇÃO - MOT. ACADÊMICOS": 1.1}}, "tec": {"mat_por_mes": [53, 89, 131, 66, 16, 26, 18, 87, 20, 67], "meses": ["NOVEMBRO", "DEZEMBRO", "JANEIRO", "FEVEREIRO", "MARÇO S1 - SEDE", "MARÇO S1 - HOME AGENT", "MARÇO S2 - SEDE", "MARÇO S2 - HOME AGENT", "MARÇO S3 - SEDE", "MARÇO S3 - HOME AGENT"], "total_acum": 573, "tx_conversao": 17.0, "total_leads": 1536, "total_respostas": 522, "conv_dia": {"SEGUNDA FEIRA": 297, "TERÇA FEIRA": 313, "QUARTA FEIRA": 362, "QUINTA FEIRA": 207, "SEXTA FEIRA": 288, "SÁBADO": 69}, "filas": {"Conversão 24h": 97.1, "Disparos": 1.3, "Abandono": 1.2, "Ativos": 0.4}, "fechamentos": {"SEM RESPOSTA": 66.0, "MATRÍCULA REALIZADA": 5.3, "SEM INTENÇÃO - MOT. PESSOAIS": 2.9, "SEM INTENÇÃO - MOT. ACADÊMICOS": 1.9, "JÁ É ALUNO": 1.7}}}, "hc": {"hc_disponivel": true, "hc_int_count": 47, "hc_hag_count": 42, "hc_total": 89, "mat_p_hc_int": 429.7, "mat_p_hc_hag": 348.4, "mat_p_hc_total": 391.4, "repr_int": 58.0, "repr_hag": 42.0, "tkm_int": 138.16, "tkm_hag": 138.3, "tkm_geral": 138.23, "receita_int": 2724218, "receita_hag": 2003917, "receita_total": 4728135, "ranking_int": [{"nome": "Thaisa Fernanda Tenório da Silveira Fogaça", "mat": 1563, "pagas": 716, "tkm": 137.13, "receita": 214334, "tx_pag": 45.8}, {"nome": "Maria Fernanda do Nascimento Justino", "mat": 1019, "pagas": 464, "tkm": 136.88, "receita": 139481, "tx_pag": 45.5}, {"nome": "Paulo Ricardo Henrique De Sousa Vital", "mat": 1010, "pagas": 436, "tkm": 130.36, "receita": 131664, "tx_pag": 43.2}, {"nome": "Yasmin dos Santos Moraes", "mat": 980, "pagas": 438, "tkm": 133.96, "receita": 131281, "tx_pag": 44.7}, {"nome": "Sthefani Cristina fava das Graças Nogueira", "mat": 962, "pagas": 471, "tkm": 137.95, "receita": 132708, "tx_pag": 49.0}, {"nome": "Roger Cauã Soares de Freitas", "mat": 949, "pagas": 411, "tkm": 136.89, "receita": 129909, "tx_pag": 43.3}, {"nome": "Nicole Ribeiro Dos Santos", "mat": 943, "pagas": 448, "tkm": 136.61, "receita": 128823, "tx_pag": 47.5}, {"nome": "João Elias Valero dos Santos", "mat": 896, "pagas": 354, "tkm": 134.07, "receita": 120127, "tx_pag": 39.5}, {"nome": "Yara Vidal de Mattos", "mat": 864, "pagas": 389, "tkm": 133.93, "receita": 115716, "tx_pag": 45.0}, {"nome": "Nathalia Gagliati Halchuk dos Santos", "mat": 845, "pagas": 355, "tkm": 135.47, "receita": 114472, "tx_pag": 42.0}, {"nome": "Maria Eduarda Schamber", "mat": 831, "pagas": 352, "tkm": 140.79, "receita": 116996, "tx_pag": 42.4}, {"nome": "Giulia Leite Delli Colli", "mat": 822, "pagas": 380, "tkm": 137.43, "receita": 112967, "tx_pag": 46.2}, {"nome": "Joao Vitor Silva Ribeiro", "mat": 792, "pagas": 290, "tkm": 128.28, "receita": 101598, "tx_pag": 36.6}, {"nome": "Jose Mauro Silva de Paula", "mat": 767, "pagas": 313, "tkm": 133.29, "receita": 102233, "tx_pag": 40.8}, {"nome": "Rosivane Lopes de Aquino", "mat": 700, "pagas": 283, "tkm": 127.13, "receita": 88991, "tx_pag": 40.4}, {"nome": "Matheus da Costa de Paula", "mat": 609, "pagas": 285, "tkm": 132.99, "receita": 80991, "tx_pag": 46.8}, {"nome": "Julia Mantovani Ferro", "mat": 607, "pagas": 211, "tkm": 124.58, "receita": 75620, "tx_pag": 34.8}, {"nome": "Adrielle Letícia Ferreira da Silva de Almeida", "mat": 604, "pagas": 300, "tkm": 145.88, "receita": 88112, "tx_pag": 49.7}, {"nome": "Murilo Alexandre de Assis", "mat": 577, "pagas": 255, "tkm": 135.41, "receita": 78132, "tx_pag": 44.2}, {"nome": "Sara Camile Henrique da Silva", "mat": 568, "pagas": 288, "tkm": 144.57, "receita": 82116, "tx_pag": 50.7}, {"nome": "Heloyse Abreu Favacho", "mat": 485, "pagas": 200, "tkm": 126.56, "receita": 61382, "tx_pag": 41.2}, {"nome": "Maria Clara Cesar Panhozzi", "mat": 415, "pagas": 154, "tkm": 130.37, "receita": 54104, "tx_pag": 37.1}, {"nome": "Adriel Wanderlind", "mat": 403, "pagas": 164, "tkm": 131.94, "receita": 53172, "tx_pag": 40.7}, {"nome": "Ana Beatriz Oliveira Rosa", "mat": 355, "pagas": 146, "tkm": 127.08, "receita": 45113, "tx_pag": 41.1}, {"nome": "Marcelo Martins Filho", "mat": 321, "pagas": 137, "tkm": 134.93, "receita": 43313, "tx_pag": 42.7}], "ranking_hag": [{"nome": "Gleiciane Do Nascimento Dias", "mat": 887, "pagas": 391, "tkm": 136.58, "receita": 121146, "tx_pag": 44.1}, {"nome": "Matheus Rinsi Da Silva", "mat": 874, "pagas": 411, "tkm": 136.26, "receita": 119091, "tx_pag": 47.0}, {"nome": "Karlena Crys Ribeiro Da Silva", "mat": 744, "pagas": 295, "tkm": 134.15, "receita": 99808, "tx_pag": 39.7}, {"nome": "Carina Regina Barbosa Pezini", "mat": 640, "pagas": 303, "tkm": 136.74, "receita": 87514, "tx_pag": 47.3}, {"nome": "Rodrigo Guido Marcondes", "mat": 560, "pagas": 267, "tkm": 138.74, "receita": 77694, "tx_pag": 47.7}, {"nome": "Vitoria De Souza Dias", "mat": 499, "pagas": 211, "tkm": 140.94, "receita": 70329, "tx_pag": 42.3}, {"nome": "Ana Caroline Cartoni Lopes", "mat": 489, "pagas": 222, "tkm": 136.09, "receita": 66548, "tx_pag": 45.4}, {"nome": "Bruna Siena", "mat": 488, "pagas": 203, "tkm": 134.23, "receita": 65504, "tx_pag": 41.6}, {"nome": "Nicole da Silva Vicente", "mat": 472, "pagas": 196, "tkm": 137.29, "receita": 64801, "tx_pag": 41.5}, {"nome": "Ryan Guilherme Da Silva Rosa", "mat": 461, "pagas": 188, "tkm": 135.97, "receita": 62682, "tx_pag": 40.8}, {"nome": "Izabela Tahisa Alves Procopio", "mat": 430, "pagas": 187, "tkm": 132.7, "receita": 57061, "tx_pag": 43.5}, {"nome": "Maria Vitoria Marques", "mat": 407, "pagas": 157, "tkm": 141.39, "receita": 57546, "tx_pag": 38.6}, {"nome": "Kawane Alessandra Lourenço Oliveira", "mat": 405, "pagas": 189, "tkm": 136.71, "receita": 55368, "tx_pag": 46.7}, {"nome": "Pedro Lucas Braga Caetano", "mat": 398, "pagas": 191, "tkm": 137.69, "receita": 54801, "tx_pag": 48.0}, {"nome": "Bianca De Souza Pupin", "mat": 384, "pagas": 176, "tkm": 145.94, "receita": 56041, "tx_pag": 45.8}, {"nome": "Viviane Martins De Santana Santos", "mat": 376, "pagas": 174, "tkm": 137.98, "receita": 51880, "tx_pag": 46.3}, {"nome": "Alexia Tainara Taioqui Dos Santos", "mat": 375, "pagas": 164, "tkm": 135.34, "receita": 50752, "tx_pag": 43.7}, {"nome": "Milena Da Silva Rosa", "mat": 374, "pagas": 159, "tkm": 136.9, "receita": 51201, "tx_pag": 42.5}, {"nome": "Gisele Cristina Florentino", "mat": 373, "pagas": 168, "tkm": 137.65, "receita": 51343, "tx_pag": 45.0}, {"nome": "Maria Eduarda Dos Santos Candido", "mat": 355, "pagas": 187, "tkm": 145.24, "receita": 51560, "tx_pag": 52.7}, {"nome": "Cassia Leticia Oliveira Soares", "mat": 336, "pagas": 139, "tkm": 142.42, "receita": 47853, "tx_pag": 41.4}, {"nome": "Kauany Yasmin Vicente Lopes", "mat": 333, "pagas": 116, "tkm": 123.45, "receita": 41109, "tx_pag": 34.8}, {"nome": "Joyce Daya Vieira", "mat": 333, "pagas": 142, "tkm": 129.67, "receita": 43180, "tx_pag": 42.6}, {"nome": "Amanda Das Neves Pacola", "mat": 308, "pagas": 133, "tkm": 135.55, "receita": 41749, "tx_pag": 43.2}, {"nome": "Anna Karolina Cardoso Adriano Rosella", "mat": 297, "pagas": 120, "tkm": 129.68, "receita": 38515, "tx_pag": 40.4}]}, "hc_uni": {"hc_uni_disponivel": true, "hc_int": 40, "hc_hag": 42, "hc_total": 82, "hc_consultores": 40, "hc_analistas": 5, "hc_supervisores": 2}, "uni": {"uni_disponivel": true, "total_mat": 36866, "total_mat_qlk": 14553, "total_ace": 9084, "ace_grad_n": 7034, "ace_cont_n": 2050, "mat_grad_topo": 11875, "mat_ec_topo": 2678, "mat_grad_tot": 32138, "mat_ec_tot": 4728, "total_hag": 13229, "total_qual": 22406, "tx_conv": 65.0, "tx_conv_total": 2.81, "omni_total_uce": 1310079, "hc": 245, "hc_int": 140, "hc_hag": 105, "mat_p_hc": 150.5, "mat_p_dia": 130.3, "bol_venc": 2279, "bol_aven": 144, "ticket": 235.0, "receita_1a_mens": 8663510.0, "meta_ps51": 26196, "meta_total": 26196, "n_sems_edital": 22, "meta_por_sem": 1190.7, "meta_por_mes_lbl": ["OUT/25", "NOV/25", "DEZ/25", "JAN/26", "FEV/26", "MAR/26"], "meta_por_mes_val": [2381, 4763, 5954, 4763, 4763, 3572], "meta_acumulada": 26195, "sem_atual_edital": 22, "pct_meta_atual": 140.7, "pct_meta_total": 140.7, "cap_hc_int": 110, "cap_hc_hag": 50, "cap_int_mes": 7920, "cap_hag_mes": 3600, "cap_total_mes": 11520, "cap_int_sem": 1829, "cap_hag_sem": 831, "cap_total_sem": 2660, "mat_hc_mes": 72, "sem_meta_labels": ["W01\n21/10 a 27/10", "W01\n21/10 a 27/10", "W01\n21/10 a 27/10", "W01\n21/10 a 27/10", "W02\n28/10 a 03/11", "W03\n04/11 a 10/11", "W04\n11/11 a 17/11", "W05\n18/11 a 24/11", "W06\n25/11 a 01/12", "W07\n02/12 a 08/12", "W08\n09/12 a 15/12", "W09\n16/12 a 22/12", "W10\n23/12 a 29/12", "W11\n30/12 a 05/01", "W12\n06/01 a 12/01", "W13\n13/01 a 19/01", "W14\n20/01 a 26/01", "W15\n27/01 a 02/02", "W16\n03/02 a 09/02", "W17\n10/02 a 16/02", "W18\n17/02 a 23/02", "W19\n24/02 a 02/03", "W20\n03/03 a 09/03", "W21\n10/03 a 16/03", "W22\n17/03 a 23/03", "W22\n17/03 a 23/03", "W23", "W23", "W24", "W24", "W25", "W25", "W26", "W27", "W28", "W29", "W30", "W31", "W32", "W50"], "sem_meta_vals": [1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191], "meta_uni": 0, "pct_meta": null, "ra_pagos": 0, "pct_ra": 0.0, "hag_mat": 0, "hag_hc": 0, "hag_mat_p_hc": 0.0, "cont": {"mat": 0, "qual": 0, "bol_venc": 0, "bol_aven": 0, "tx_conv": 0.0}, "grad": {"mat": 14553, "qual": 22406, "bol_venc": 2279, "bol_aven": 144, "tx_conv": 65.0}, "ace_c": {"ace": 0}, "ace_g": {"ace": 9084}, "sem_labels": ["W01\n21/10 a 27/10", "W01\n21/10 a 27/10", "W01\n21/10 a 27/10", "W01\n21/10 a 27/10", "W02\n28/10 a 03/11", "W03\n04/11 a 10/11", "W04\n11/11 a 17/11", "W05\n18/11 a 24/11", "W06\n25/11 a 01/12", "W07\n02/12 a 08/12", "W08\n09/12 a 15/12", "W09\n16/12 a 22/12", "W10\n23/12 a 29/12", "W11\n30/12 a 05/01", "W12\n06/01 a 12/01", "W13\n13/01 a 19/01", "W14\n20/01 a 26/01", "W15\n27/01 a 02/02", "W16\n03/02 a 09/02", "W17\n10/02 a 16/02", "W18\n17/02 a 23/02", "W19\n24/02 a 02/03", "W20\n03/03 a 09/03", "W21\n10/03 a 16/03", "W22\n17/03 a 23/03", "W22\n17/03 a 23/03", "W23", "W23", "W24", "W24", "W25", "W25", "W26", "W27", "W28", "W29", "W30", "W31", "W32", "W50"], "sem_total": [19, 19, 528, 929, 989, 1052, 1188, 1833, 1463, 1367, 1397, 630, 527, 2105, 1820, 1911, 1951, 2119, 1995, 1200, 2024, 1496, 1453, 979, 210, 489, 416, 256, 419, 278, 368, 199, 304, 295, 316, 411, 382, 535, 258, 7], "sem_grad": [19, 19, 528, 929, 989, 1052, 1188, 1833, 1463, 1367, 1397, 630, 527, 2105, 1820, 1911, 1951, 2119, 1995, 1200, 2024, 1496, 1453, 979, 210, 489, 416, 256, 419, 278, 368, 199, 304, 295, 316, 411, 382, 535, 258, 7], "sem_cont": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "sem_interno": [19, 19, 213, 329, 457, 460, 530, 838, 604, 693, 809, 451, 495, 1347, 1191, 1226, 1242, 1329, 1220, 785, 1324, 876, 912, 512, 210, 373, 416, 256, 419, 278, 368, 199, 304, 295, 316, 411, 382, 535, 258, 7], "sem_hag": [0, 0, 315, 600, 532, 592, 658, 995, 859, 674, 588, 179, 32, 758, 629, 685, 709, 790, 775, 415, 700, 620, 541, 467, 0, 116, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "mes_labels": ["MAR/25", "ABR/25", "MAI/25", "OUT/25", "NOV/25", "DEZ/25", "JAN/26", "FEV/26", "MAR/26", "ABR/26"], "mes_cont": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "mes_grad": [724, 1526, 1664, 449, 1632, 1582, 2566, 2132, 1687, 591], "mes_ace_c": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "mes_ace_g": [0, 0, 0, 114, 677, 1265, 2640, 2527, 1132, 0], "mes_interno": [724, 1526, 1664, 563, 2309, 2847, 5206, 4659, 2819, 591], "mes_hag": [0, 0, 0, 878, 2814, 2324, 2787, 2681, 1745, 0], "mes_mat": [724, 1526, 1664, 1441, 5123, 5171, 7993, 7340, 4564, 591], "mes_mat_ace_c": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "mes_mat_ace_g": [0, 0, 0, 114, 677, 1265, 2640, 2527, 1132, 0], "mes_qual": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "mes_tx": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ranking": [{"nome": "GIOVANNA CADIDE CABRAL", "mat": 487, "qlk": 487, "ace": 0, "qual": 832, "tx": 58.5, "bol_venc": 101, "bol_aven": 12}, {"nome": "GESSICA DA CRUZ BARTURI LUCIANO", "mat": 462, "qlk": 462, "ace": 0, "qual": 681, "tx": 67.8, "bol_venc": 69, "bol_aven": 11}, {"nome": "INGRID KAWANE RIBEIRO MOREIRA", "mat": 427, "qlk": 427, "ace": 0, "qual": 733, "tx": 58.3, "bol_venc": 69, "bol_aven": 4}, {"nome": "SABRINA SOARES SANTOS GUIDO", "mat": 413, "qlk": 413, "ace": 0, "qual": 671, "tx": 61.5, "bol_venc": 63, "bol_aven": 2}, {"nome": "PEDRO HENRIQUE RIBEIRO DOS SANTOS", "mat": 390, "qlk": 390, "ace": 0, "qual": 600, "tx": 65.0, "bol_venc": 60, "bol_aven": 3}, {"nome": "HENRIQUE CAUA CUPERTINO NAVARRO", "mat": 382, "qlk": 382, "ace": 0, "qual": 498, "tx": 76.7, "bol_venc": 22, "bol_aven": 2}, {"nome": "WILLYAN GABRIEL LOPES MOREIRA DE ALMEIDA", "mat": 332, "qlk": 332, "ace": 0, "qual": 476, "tx": 69.7, "bol_venc": 27, "bol_aven": 2}, {"nome": "EDENILSON TEODORO JUNIOR", "mat": 327, "qlk": 327, "ace": 0, "qual": 410, "tx": 79.8, "bol_venc": 31, "bol_aven": 2}, {"nome": "BEATRIZ DE OLIVEIRA XAVIER", "mat": 326, "qlk": 326, "ace": 0, "qual": 517, "tx": 63.1, "bol_venc": 52, "bol_aven": 0}, {"nome": "NEIDE DAGUES COSTA", "mat": 317, "qlk": 317, "ace": 0, "qual": 650, "tx": 48.8, "bol_venc": 98, "bol_aven": 0}, {"nome": "JOSELMA OLIVEIRA JARDIM", "mat": 309, "qlk": 309, "ace": 0, "qual": 585, "tx": 52.8, "bol_venc": 73, "bol_aven": 2}, {"nome": "TALITA ARAUJO DOS SANTOS", "mat": 309, "qlk": 309, "ace": 0, "qual": 572, "tx": 54.0, "bol_venc": 60, "bol_aven": 7}, {"nome": "SANDRA REGINA BRAZIEL", "mat": 307, "qlk": 307, "ace": 0, "qual": 580, "tx": 52.9, "bol_venc": 71, "bol_aven": 10}, {"nome": "EVELIN CRISTINI DA SILVA", "mat": 295, "qlk": 295, "ace": 0, "qual": 392, "tx": 75.3, "bol_venc": 53, "bol_aven": 4}, {"nome": "BRUNA NASCIMENTO DOS SANTOS", "mat": 294, "qlk": 294, "ace": 0, "qual": 464, "tx": 63.4, "bol_venc": 51, "bol_aven": 0}, {"nome": "GABRIEL CANDIDO SILVA", "mat": 286, "qlk": 286, "ace": 0, "qual": 485, "tx": 59.0, "bol_venc": 46, "bol_aven": 8}, {"nome": "FERNANDA MAGIOTO", "mat": 280, "qlk": 280, "ace": 0, "qual": 416, "tx": 67.3, "bol_venc": 21, "bol_aven": 4}, {"nome": "FERNANDA GABRIELLI PERILES", "mat": 279, "qlk": 279, "ace": 0, "qual": 364, "tx": 76.6, "bol_venc": 29, "bol_aven": 0}, {"nome": "ANDREIA FERREIRA DE OLIVEIRA", "mat": 278, "qlk": 278, "ace": 0, "qual": 464, "tx": 59.9, "bol_venc": 37, "bol_aven": 1}, {"nome": "HELEN ALMEIDA MAFFIOLETTI", "mat": 277, "qlk": 277, "ace": 0, "qual": 358, "tx": 77.4, "bol_venc": 48, "bol_aven": 0}, {"nome": "CELIA DE SOUZA LIMA", "mat": 276, "qlk": 276, "ace": 0, "qual": 614, "tx": 45.0, "bol_venc": 89, "bol_aven": 5}, {"nome": "ANA KAROLINE CRISTO RIBEIRO", "mat": 267, "qlk": 267, "ace": 0, "qual": 304, "tx": 87.8, "bol_venc": 18, "bol_aven": 2}, {"nome": "BEATRIZ MOREIRA DE MARIA", "mat": 264, "qlk": 264, "ace": 0, "qual": 386, "tx": 68.4, "bol_venc": 65, "bol_aven": 3}, {"nome": "SARAH DA SILVA PURNUCENA", "mat": 264, "qlk": 264, "ace": 0, "qual": 306, "tx": 86.3, "bol_venc": 27, "bol_aven": 0}, {"nome": "VANUSA SILVINO", "mat": 259, "qlk": 259, "ace": 0, "qual": 425, "tx": 60.9, "bol_venc": 36, "bol_aven": 2}, {"nome": "BEATRIZ SHIKI PORTILHO", "mat": 254, "qlk": 254, "ace": 0, "qual": 331, "tx": 76.7, "bol_venc": 25, "bol_aven": 0}, {"nome": "MARCOS VINÍCIUS FERREIRA FONTES", "mat": 252, "qlk": 252, "ace": 0, "qual": 409, "tx": 61.6, "bol_venc": 47, "bol_aven": 0}, {"nome": "THAYSSA VICTORIA DA SILVA PEREIRA", "mat": 244, "qlk": 244, "ace": 0, "qual": 362, "tx": 67.4, "bol_venc": 32, "bol_aven": 0}, {"nome": "TAUANY BEZERRA DE SOUZA", "mat": 234, "qlk": 234, "ace": 0, "qual": 384, "tx": 60.9, "bol_venc": 39, "bol_aven": 0}, {"nome": "CAROLINE SILVA SANTOS", "mat": 233, "qlk": 233, "ace": 0, "qual": 295, "tx": 79.0, "bol_venc": 19, "bol_aven": 0}], "ultima_data": "16/04/2026", "orig_labels": ["Topo de Funil", "Aceleradores", "HAG"], "orig_vals": [14553, 9084, 13229], "produtos": [{"cat": "GRAD", "qual": 13917, "mat": 9051, "tx": 65.0, "bv": 1245, "bav": 87, "pct_bar": 100}, {"cat": "GRAD-HIB", "qual": 5208, "mat": 2824, "tx": 54.2, "bv": 654, "bav": 39, "pct_bar": 31}, {"cat": "POS", "qual": 1478, "mat": 1298, "tx": 87.8, "bv": 119, "bav": 3, "pct_bar": 14}, {"cat": "PÓS-HIB", "qual": 0, "mat": 19, "tx": 0.0, "bv": 0, "bav": 0, "pct_bar": 0}, {"cat": "TEC", "qual": 1101, "mat": 852, "tx": 77.4, "bv": 132, "bav": 11, "pct_bar": 9}, {"cat": "TECPOSENF", "qual": 43, "mat": 31, "tx": 72.1, "bv": 6, "bav": 1, "pct_bar": 0}, {"cat": "TECPOSRAD", "qual": 43, "mat": 31, "tx": 72.1, "bv": 9, "bav": 0, "pct_bar": 0}, {"cat": "TECPOSPOD", "qual": 23, "mat": 17, "tx": 73.9, "bv": 4, "bav": 0, "pct_bar": 0}, {"cat": "PRO", "qual": 590, "mat": 429, "tx": 72.7, "bv": 110, "bav": 3, "pct_bar": 5}], "ps51": {"uni_disponivel": true, "total_mat": 31220, "total_mat_qlk": 9636, "total_ace": 8355, "ace_grad_n": 6449, "ace_cont_n": 1906, "mat_grad_topo": 7846, "mat_ec_topo": 1790, "mat_grad_tot": 27524, "mat_ec_tot": 3696, "total_hag": 13229, "total_qual": 14112, "tx_conv": 68.3, "tx_conv_total": 3.81, "omni_total_uce": 819515, "hc": 230, "hc_int": 125, "hc_hag": 105, "mat_p_hc": 135.7, "mat_p_dia": 245.8, "bol_venc": 1503, "bol_aven": 0, "ticket": 235.0, "receita_1a_mens": 7336700.0, "meta_ps51": 26196, "meta_total": 26196, "n_sems_edital": 22, "meta_por_sem": 1190.7, "meta_por_mes_lbl": ["OUT/25", "NOV/25", "DEZ/25", "JAN/26", "FEV/26", "MAR/26"], "meta_por_mes_val": [2381, 4763, 5954, 4763, 4763, 3572], "meta_acumulada": 26195, "sem_atual_edital": 22, "pct_meta_atual": 119.2, "pct_meta_total": 119.2, "cap_hc_int": 110, "cap_hc_hag": 50, "cap_int_mes": 7920, "cap_hag_mes": 3600, "cap_total_mes": 11520, "cap_int_sem": 1829, "cap_hag_sem": 831, "cap_total_sem": 2660, "mat_hc_mes": 72, "sem_meta_labels": ["W01\n21/10 a 27/10", "W01\n21/10 a 27/10", "W01\n21/10 a 27/10", "W01\n21/10 a 27/10", "W02\n28/10 a 03/11", "W03\n04/11 a 10/11", "W04\n11/11 a 17/11", "W05\n18/11 a 24/11", "W06\n25/11 a 01/12", "W07\n02/12 a 08/12", "W08\n09/12 a 15/12", "W09\n16/12 a 22/12", "W10\n23/12 a 29/12", "W11\n30/12 a 05/01", "W12\n06/01 a 12/01", "W13\n13/01 a 19/01", "W14\n20/01 a 26/01", "W15\n27/01 a 02/02", "W16\n03/02 a 09/02", "W17\n10/02 a 16/02", "W18\n17/02 a 23/02", "W19\n24/02 a 02/03", "W20\n03/03 a 09/03", "W21\n10/03 a 16/03", "W22\n17/03 a 23/03", "W50"], "sem_meta_vals": [1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191, 1191], "meta_uni": 0, "pct_meta": null, "ra_pagos": 0, "pct_ra": 0.0, "hag_mat": 0, "hag_hc": 0, "hag_mat_p_hc": 0.0, "cont": {"mat": 0, "qual": 0, "bol_venc": 0, "bol_aven": 0, "tx_conv": 0.0}, "grad": {"mat": 9636, "qual": 14112, "bol_venc": 1503, "bol_aven": 0, "tx_conv": 68.3}, "ace_c": {"ace": 0}, "ace_g": {"ace": 8355}, "sem_labels": ["W01\n21/10 a 27/10", "W01\n21/10 a 27/10", "W01\n21/10 a 27/10", "W01\n21/10 a 27/10", "W02\n28/10 a 03/11", "W03\n04/11 a 10/11", "W04\n11/11 a 17/11", "W05\n18/11 a 24/11", "W06\n25/11 a 01/12", "W07\n02/12 a 08/12", "W08\n09/12 a 15/12", "W09\n16/12 a 22/12", "W10\n23/12 a 29/12", "W11\n30/12 a 05/01", "W12\n06/01 a 12/01", "W13\n13/01 a 19/01", "W14\n20/01 a 26/01", "W15\n27/01 a 02/02", "W16\n03/02 a 09/02", "W17\n10/02 a 16/02", "W18\n17/02 a 23/02", "W19\n24/02 a 02/03", "W20\n03/03 a 09/03", "W21\n10/03 a 16/03", "W22\n17/03 a 23/03", "W50"], "sem_total": [19, 19, 528, 929, 989, 1052, 1188, 1833, 1463, 1367, 1397, 630, 527, 2105, 1820, 1911, 1951, 2119, 1995, 1200, 2024, 1496, 1453, 979, 219, 7], "sem_grad": [19, 19, 528, 929, 989, 1052, 1188, 1833, 1463, 1367, 1397, 630, 527, 2105, 1820, 1911, 1951, 2119, 1995, 1200, 2024, 1496, 1453, 979, 219, 7], "sem_cont": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "sem_interno": [19, 19, 213, 329, 457, 460, 530, 838, 604, 693, 809, 451, 495, 1347, 1191, 1226, 1242, 1329, 1220, 785, 1324, 876, 912, 512, 103, 7], "sem_hag": [0, 0, 315, 600, 532, 592, 658, 995, 859, 674, 588, 179, 32, 758, 629, 685, 709, 790, 775, 415, 700, 620, 541, 467, 116, 0], "mes_labels": ["OUT/25", "NOV/25", "DEZ/25", "JAN/26", "FEV/26", "MAR/26"], "mes_cont": [0, 0, 0, 0, 0, 0], "mes_grad": [449, 1632, 1582, 2566, 2132, 1275], "mes_ace_c": [0, 0, 0, 0, 0, 0], "mes_ace_g": [114, 677, 1265, 2640, 2527, 1132], "mes_interno": [563, 2309, 2847, 5206, 4659, 2407], "mes_hag": [878, 2814, 2324, 2787, 2681, 1745], "mes_mat": [1441, 5123, 5171, 7993, 7340, 4152], "mes_mat_ace_c": [0, 0, 0, 0, 0, 0], "mes_mat_ace_g": [114, 677, 1265, 2640, 2527, 1132], "mes_qual": [0, 0, 0, 0, 0, 0], "mes_tx": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ranking": [{"nome": "GIOVANNA CADIDE CABRAL", "mat": 296, "qlk": 296, "ace": 0, "qual": 477, "tx": 62.1, "bol_venc": 65, "bol_aven": 0}, {"nome": "BEATRIZ DE OLIVEIRA XAVIER", "mat": 257, "qlk": 257, "ace": 0, "qual": 385, "tx": 66.8, "bol_venc": 38, "bol_aven": 0}, {"nome": "INGRID KAWANE RIBEIRO MOREIRA", "mat": 256, "qlk": 256, "ace": 0, "qual": 424, "tx": 60.4, "bol_venc": 34, "bol_aven": 0}, {"nome": "PEDRO HENRIQUE RIBEIRO DOS SANTOS", "mat": 252, "qlk": 252, "ace": 0, "qual": 372, "tx": 67.7, "bol_venc": 41, "bol_aven": 0}, {"nome": "GESSICA DA CRUZ BARTURI LUCIANO", "mat": 246, "qlk": 246, "ace": 0, "qual": 353, "tx": 69.7, "bol_venc": 39, "bol_aven": 0}, {"nome": "GABRIEL CANDIDO SILVA", "mat": 242, "qlk": 242, "ace": 0, "qual": 387, "tx": 62.5, "bol_venc": 42, "bol_aven": 0}, {"nome": "HENRIQUE CAUA CUPERTINO NAVARRO", "mat": 234, "qlk": 234, "ace": 0, "qual": 282, "tx": 83.0, "bol_venc": 10, "bol_aven": 0}, {"nome": "SABRINA SOARES SANTOS GUIDO", "mat": 232, "qlk": 232, "ace": 0, "qual": 346, "tx": 67.1, "bol_venc": 27, "bol_aven": 0}, {"nome": "HELEN ALMEIDA MAFFIOLETTI", "mat": 228, "qlk": 228, "ace": 0, "qual": 292, "tx": 78.1, "bol_venc": 38, "bol_aven": 0}, {"nome": "TALITA ARAUJO DOS SANTOS", "mat": 227, "qlk": 227, "ace": 0, "qual": 427, "tx": 53.2, "bol_venc": 50, "bol_aven": 0}, {"nome": "EDENILSON TEODORO JUNIOR", "mat": 224, "qlk": 224, "ace": 0, "qual": 261, "tx": 85.8, "bol_venc": 14, "bol_aven": 0}, {"nome": "NEIDE DAGUES COSTA", "mat": 221, "qlk": 221, "ace": 0, "qual": 470, "tx": 47.0, "bol_venc": 77, "bol_aven": 0}, {"nome": "VANUSA SILVINO", "mat": 219, "qlk": 219, "ace": 0, "qual": 328, "tx": 66.8, "bol_venc": 26, "bol_aven": 0}, {"nome": "SANDRA REGINA BRAZIEL", "mat": 215, "qlk": 215, "ace": 0, "qual": 380, "tx": 56.6, "bol_venc": 54, "bol_aven": 0}, {"nome": "ANDREIA FERREIRA DE OLIVEIRA", "mat": 211, "qlk": 211, "ace": 0, "qual": 337, "tx": 62.6, "bol_venc": 22, "bol_aven": 0}, {"nome": "FERNANDA GABRIELLI PERILES", "mat": 204, "qlk": 204, "ace": 0, "qual": 265, "tx": 77.0, "bol_venc": 24, "bol_aven": 0}, {"nome": "JOSELMA OLIVEIRA JARDIM", "mat": 200, "qlk": 200, "ace": 0, "qual": 371, "tx": 53.9, "bol_venc": 51, "bol_aven": 0}, {"nome": "JOYCE ANDRESSA DA SILVA VALENTINO", "mat": 199, "qlk": 199, "ace": 0, "qual": 325, "tx": 61.2, "bol_venc": 23, "bol_aven": 0}, {"nome": "MARCOS VINÍCIUS FERREIRA FONTES", "mat": 196, "qlk": 196, "ace": 0, "qual": 293, "tx": 66.9, "bol_venc": 33, "bol_aven": 0}, {"nome": "GIOVANA ROSSI", "mat": 192, "qlk": 192, "ace": 0, "qual": 269, "tx": 71.4, "bol_venc": 25, "bol_aven": 0}, {"nome": "WILLYAN GABRIEL LOPES MOREIRA DE ALMEIDA", "mat": 190, "qlk": 190, "ace": 0, "qual": 255, "tx": 74.5, "bol_venc": 12, "bol_aven": 0}, {"nome": "BRUNA NASCIMENTO DOS SANTOS", "mat": 184, "qlk": 184, "ace": 0, "qual": 266, "tx": 69.2, "bol_venc": 30, "bol_aven": 0}, {"nome": "EVELIN CRISTINI DA SILVA", "mat": 183, "qlk": 183, "ace": 0, "qual": 236, "tx": 77.5, "bol_venc": 30, "bol_aven": 0}, {"nome": "THAYSSA VICTORIA DA SILVA PEREIRA", "mat": 181, "qlk": 181, "ace": 0, "qual": 257, "tx": 70.4, "bol_venc": 20, "bol_aven": 0}, {"nome": "SABRINA MANOELA DOS SANTOS LIMA", "mat": 177, "qlk": 177, "ace": 0, "qual": 287, "tx": 61.7, "bol_venc": 34, "bol_aven": 0}, {"nome": "ISABELA CRISTINA MELO AGOSTINI", "mat": 176, "qlk": 176, "ace": 0, "qual": 238, "tx": 73.9, "bol_venc": 18, "bol_aven": 0}, {"nome": "ANA KAROLINE CRISTO RIBEIRO", "mat": 174, "qlk": 174, "ace": 0, "qual": 195, "tx": 89.2, "bol_venc": 14, "bol_aven": 0}, {"nome": "LEONARDO NEVES DOS SANTOS", "mat": 171, "qlk": 171, "ace": 0, "qual": 325, "tx": 52.6, "bol_venc": 31, "bol_aven": 0}, {"nome": "TAUANY BEZERRA DE SOUZA", "mat": 165, "qlk": 165, "ace": 0, "qual": 241, "tx": 68.5, "bol_venc": 27, "bol_aven": 0}, {"nome": "CAROLINE SILVA SANTOS", "mat": 164, "qlk": 164, "ace": 0, "qual": 185, "tx": 88.6, "bol_venc": 8, "bol_aven": 0}], "ultima_data": "26/03/2026", "orig_labels": ["Topo de Funil", "Aceleradores", "HAG"], "orig_vals": [9636, 8355, 13229], "produtos": [{"cat": "GRAD", "qual": 8759, "mat": 5966, "tx": 68.1, "bv": 813, "bav": 0, "pct_bar": 100}, {"cat": "GRAD-HIB", "qual": 3207, "mat": 1880, "tx": 58.6, "bv": 421, "bav": 0, "pct_bar": 32}, {"cat": "POS", "qual": 971, "mat": 869, "tx": 89.5, "bv": 87, "bav": 0, "pct_bar": 15}, {"cat": "PÓS-HIB", "qual": 0, "mat": 19, "tx": 0.0, "bv": 0, "bav": 0, "pct_bar": 0}, {"cat": "TEC", "qual": 736, "mat": 582, "tx": 79.1, "bv": 91, "bav": 0, "pct_bar": 10}, {"cat": "TECPOSENF", "qual": 37, "mat": 27, "tx": 73.0, "bv": 5, "bav": 0, "pct_bar": 0}, {"cat": "TECPOSRAD", "qual": 22, "mat": 20, "tx": 90.9, "bv": 2, "bav": 0, "pct_bar": 0}, {"cat": "TECPOSPOD", "qual": 17, "mat": 12, "tx": 70.6, "bv": 4, "bav": 0, "pct_bar": 0}, {"cat": "PRO", "qual": 363, "mat": 261, "tx": 71.9, "bv": 80, "bav": 0, "pct_bar": 4}]}, "ps52": {"uni_disponivel": true, "total_mat": 1732, "total_mat_qlk": 1003, "total_ace": 729, "ace_grad_n": 585, "ace_cont_n": 144, "mat_grad_topo": 842, "mat_ec_topo": 161, "mat_grad_tot": 1427, "mat_ec_tot": 305, "total_hag": 0, "total_qual": 2036, "tx_conv": 49.3, "tx_conv_total": 0.35, "omni_total_uce": 490564, "hc": 73, "hc_int": 73, "hc_hag": 0, "mat_p_hc": 23.7, "mat_p_dia": 0.2, "bol_venc": 164, "bol_aven": 144, "ticket": 235.0, "receita_1a_mens": 407020.0, "meta_ps51": 26605, "meta_total": 26605, "n_sems_edital": 10, "meta_por_sem": 2660.5, "meta_por_mes_lbl": ["MAR/26", "ABR/26", "MAI/26"], "meta_por_mes_val": [5321, 10642, 10642], "meta_acumulada": 10642, "sem_atual_edital": 4, "pct_meta_atual": 16.3, "pct_meta_total": 6.5, "cap_hc_int": 110, "cap_hc_hag": 50, "cap_int_mes": 7920, "cap_hag_mes": 3600, "cap_total_mes": 11520, "cap_int_sem": 1829, "cap_hag_sem": 831, "cap_total_sem": 2660, "mat_hc_mes": 72, "sem_meta_labels": ["W01\n24/03 a 30/03", "W02\n31/03 a 06/04", "W03\n07/04 a 13/04", "W04\n14/04 a 20/04", "W05\n21/04 a 27/04", "W06\n28/04 a 04/05", "W07\n05/05 a 11/05", "W08\n12/05 a 18/05", "W09\n19/05 a 25/05", "W10\n26/05 a 01/06"], "sem_meta_vals": [2660, 2660, 2660, 2660, 2660, 2660, 2660, 2660, 2660, 2660], "meta_uni": 0, "pct_meta": null, "ra_pagos": 0, "pct_ra": 0.0, "hag_mat": 0, "hag_hc": 0, "hag_mat_p_hc": 0.0, "cont": {"mat": 0, "qual": 0, "bol_venc": 0, "bol_aven": 0, "tx_conv": 0.0}, "grad": {"mat": 1003, "qual": 2036, "bol_venc": 164, "bol_aven": 144, "tx_conv": 49.3}, "ace_c": {"ace": 0}, "ace_g": {"ace": 729}, "sem_labels": ["W21\n10/03 a 16/03", "W22\n17/03 a 23/03", "W01\n24/03 a 30/03", "W02\n31/03 a 06/04", "W02\n31/03 a 06/04", "W03\n07/04 a 13/04"], "sem_total": [1, 412, 457, 1, 529, 330], "sem_grad": [1, 412, 457, 1, 529, 330], "sem_cont": [0, 0, 0, 0, 0, 0], "sem_interno": [1, 412, 457, 1, 529, 330], "sem_hag": [0, 0, 0, 0, 0, 0], "mes_labels": ["ABR/06", "MAR/26", "ABR/26", "MAR/82"], "mes_cont": [0, 0, 0, 0], "mes_grad": [0, 412, 591, 0], "mes_ace_c": [0, 0, 0, 0], "mes_ace_g": [1, 239, 486, 1], "mes_interno": [1, 651, 1077, 1], "mes_hag": [0, 0, 0, 0], "mes_mat": [1, 651, 1077, 1], "mes_mat_ace_c": [0, 0, 0, 0], "mes_mat_ace_g": [1, 239, 486, 1], "mes_qual": [0, 0, 0, 0], "mes_tx": [0.0, 0.0, 0.0, 0.0], "ranking": [{"nome": "VICTOR KENDY KOZINA", "mat": 46, "qlk": 46, "ace": 0, "qual": 83, "tx": 55.4, "bol_venc": 4, "bol_aven": 4}, {"nome": "INGRID KAWANE RIBEIRO MOREIRA", "mat": 45, "qlk": 45, "ace": 0, "qual": 79, "tx": 57.0, "bol_venc": 3, "bol_aven": 4}, {"nome": "GABRIEL CANDIDO SILVA", "mat": 44, "qlk": 44, "ace": 0, "qual": 98, "tx": 44.9, "bol_venc": 4, "bol_aven": 8}, {"nome": "GIOVANNA CADIDE CABRAL", "mat": 42, "qlk": 42, "ace": 0, "qual": 95, "tx": 44.2, "bol_venc": 6, "bol_aven": 12}, {"nome": "GESSICA DA CRUZ BARTURI LUCIANO", "mat": 37, "qlk": 37, "ace": 0, "qual": 79, "tx": 46.8, "bol_venc": 6, "bol_aven": 11}, {"nome": "PEDRO HENRIQUE RIBEIRO DOS SANTOS", "mat": 34, "qlk": 34, "ace": 0, "qual": 54, "tx": 63.0, "bol_venc": 3, "bol_aven": 3}, {"nome": "JOYCE ANDRESSA DA SILVA VALENTINO", "mat": 33, "qlk": 33, "ace": 0, "qual": 94, "tx": 35.1, "bol_venc": 7, "bol_aven": 8}, {"nome": "TALITA ARAUJO DOS SANTOS", "mat": 32, "qlk": 32, "ace": 0, "qual": 71, "tx": 45.1, "bol_venc": 3, "bol_aven": 7}, {"nome": "LEANDRA SANTOS LORENZETTI", "mat": 31, "qlk": 31, "ace": 0, "qual": 89, "tx": 34.8, "bol_venc": 5, "bol_aven": 5}, {"nome": "SABRINA SOARES SANTOS GUIDO", "mat": 29, "qlk": 29, "ace": 0, "qual": 80, "tx": 36.2, "bol_venc": 14, "bol_aven": 2}, {"nome": "WILLYAN GABRIEL LOPES MOREIRA DE ALMEIDA", "mat": 27, "qlk": 27, "ace": 0, "qual": 48, "tx": 56.2, "bol_venc": 2, "bol_aven": 2}, {"nome": "HENRIQUE CAUA CUPERTINO NAVARRO", "mat": 26, "qlk": 26, "ace": 0, "qual": 46, "tx": 56.5, "bol_venc": 1, "bol_aven": 2}, {"nome": "CELIA DE SOUZA LIMA", "mat": 25, "qlk": 25, "ace": 0, "qual": 72, "tx": 34.7, "bol_venc": 4, "bol_aven": 5}, {"nome": "EVELIN CRISTINI DA SILVA", "mat": 23, "qlk": 23, "ace": 0, "qual": 35, "tx": 65.7, "bol_venc": 4, "bol_aven": 4}, {"nome": "GUSTAVO QUALHO CAZONI", "mat": 23, "qlk": 23, "ace": 0, "qual": 44, "tx": 52.3, "bol_venc": 0, "bol_aven": 6}, {"nome": "BEATRIZ MOREIRA DE MARIA", "mat": 21, "qlk": 21, "ace": 0, "qual": 32, "tx": 65.6, "bol_venc": 3, "bol_aven": 3}, {"nome": "SANDER MIGUEL FIGUEROA", "mat": 21, "qlk": 21, "ace": 0, "qual": 36, "tx": 58.3, "bol_venc": 1, "bol_aven": 0}, {"nome": "EMILY EMANUELLY DE SOUZA", "mat": 20, "qlk": 20, "ace": 0, "qual": 29, "tx": 69.0, "bol_venc": 3, "bol_aven": 5}, {"nome": "THAYSSA VICTORIA DA SILVA PEREIRA", "mat": 20, "qlk": 20, "ace": 0, "qual": 36, "tx": 55.6, "bol_venc": 3, "bol_aven": 0}, {"nome": "JULIE NDINGA ZEFERINO DA SILVA", "mat": 20, "qlk": 20, "ace": 0, "qual": 28, "tx": 71.4, "bol_venc": 2, "bol_aven": 2}, {"nome": "GIOVANA ROSSI", "mat": 19, "qlk": 19, "ace": 0, "qual": 37, "tx": 51.4, "bol_venc": 2, "bol_aven": 2}, {"nome": "FERNANDA MAGIOTO", "mat": 19, "qlk": 19, "ace": 0, "qual": 47, "tx": 40.4, "bol_venc": 3, "bol_aven": 4}, {"nome": "ANA KAROLINE CRISTO RIBEIRO", "mat": 19, "qlk": 19, "ace": 0, "qual": 23, "tx": 82.6, "bol_venc": 1, "bol_aven": 2}, {"nome": "AMANDA DA SILVA MARTINS", "mat": 19, "qlk": 19, "ace": 0, "qual": 33, "tx": 57.6, "bol_venc": 4, "bol_aven": 2}, {"nome": "NATALIA ALMEIDA LIMA MORAIS", "mat": 18, "qlk": 18, "ace": 0, "qual": 20, "tx": 90.0, "bol_venc": 2, "bol_aven": 0}, {"nome": "JULIA CAROLINE DA SILVA PESSOA", "mat": 18, "qlk": 18, "ace": 0, "qual": 26, "tx": 69.2, "bol_venc": 3, "bol_aven": 0}, {"nome": "JOSELMA OLIVEIRA JARDIM", "mat": 18, "qlk": 18, "ace": 0, "qual": 34, "tx": 52.9, "bol_venc": 0, "bol_aven": 2}, {"nome": "SANDRA REGINA BRAZIEL", "mat": 18, "qlk": 18, "ace": 0, "qual": 55, "tx": 32.7, "bol_venc": 4, "bol_aven": 10}, {"nome": "SABRINA MANOELA DOS SANTOS LIMA", "mat": 18, "qlk": 18, "ace": 0, "qual": 51, "tx": 35.3, "bol_venc": 6, "bol_aven": 3}, {"nome": "EDENILSON TEODORO JUNIOR", "mat": 16, "qlk": 16, "ace": 0, "qual": 20, "tx": 80.0, "bol_venc": 1, "bol_aven": 2}], "ultima_data": "16/04/2026", "orig_labels": ["Topo de Funil", "Aceleradores", "HAG"], "orig_vals": [1003, 729, 0], "produtos": [{"cat": "GRAD", "qual": 1319, "mat": 650, "tx": 49.3, "bv": 89, "bav": 87, "pct_bar": 100}, {"cat": "GRAD-HIB", "qual": 494, "mat": 192, "tx": 38.9, "bv": 47, "bav": 39, "pct_bar": 30}, {"cat": "POS", "qual": 62, "mat": 51, "tx": 82.3, "bv": 11, "bav": 3, "pct_bar": 8}, {"cat": "PÓS-HIB", "qual": 0, "mat": 0, "tx": 0.0, "bv": 0, "bav": 0, "pct_bar": 0}, {"cat": "TEC", "qual": 93, "mat": 60, "tx": 64.5, "bv": 11, "bav": 11, "pct_bar": 9}, {"cat": "TECPOSENF", "qual": 6, "mat": 4, "tx": 66.7, "bv": 1, "bav": 1, "pct_bar": 1}, {"cat": "TECPOSRAD", "qual": 0, "mat": 0, "tx": 0.0, "bv": 0, "bav": 0, "pct_bar": 0}, {"cat": "TECPOSPOD", "qual": 1, "mat": 0, "tx": 0.0, "bv": 0, "bav": 0, "pct_bar": 0}, {"cat": "PRO", "qual": 58, "mat": 45, "tx": 77.6, "bv": 5, "bav": 3, "pct_bar": 7}]}}, "hag_uce": {"hag_disponivel": true, "hag_mat": 13229, "hag_hc": 42, "hag_mat_p_hc": 315.0, "hag_grad": 13229, "hag_ranking": [{"nome": "Heloisa Joanis De Oliveira", "mat": 592}, {"nome": "Alana Frozza da Silveira", "mat": 516}, {"nome": "Pietro Roberto Leme do Prado", "mat": 472}, {"nome": "Gleice Kelly Leite Pineli", "mat": 439}, {"nome": "Luana Silva De Almeida Prado", "mat": 410}, {"nome": "Pedro De Souza Pupin", "mat": 400}, {"nome": "Amanda Beatriz Sence", "mat": 392}, {"nome": "João Paulo Ferrari", "mat": 374}, {"nome": "Vitória Suligo Martins", "mat": 370}, {"nome": "Thiago Bossa Alves", "mat": 365}, {"nome": "Nathalia Caroline De Souza Lima", "mat": 359}, {"nome": "Isabelly Cristina Alves Pereira Moi", "mat": 342}, {"nome": "Rayana Garcia", "mat": 331}, {"nome": "Isadora de Morais Antonelli", "mat": 327}, {"nome": "Lucas Felipe Dornelas Fugi", "mat": 322}, {"nome": "Davi Rizo", "mat": 318}, {"nome": "Isabela Dutra De Souza", "mat": 313}, {"nome": "Murilo Pivatto dos Santos", "mat": 303}, {"nome": "Bianca Evangelista Troli", "mat": 291}, {"nome": "Heloisa Fagundes Freire", "mat": 274}, {"nome": "Paulo Henrique Garcia Dos Santos", "mat": 272}, {"nome": "Kauã Vieira De Araujo", "mat": 269}, {"nome": "Rayane Pereira Miotto", "mat": 262}, {"nome": "Ariane Mayer", "mat": 260}, {"nome": "Otavio Henrique Rocha", "mat": 235}, {"nome": "Sander Miguel Figueroa", "mat": 234}, {"nome": "Gabriel Capel", "mat": 232}, {"nome": "Kataryne Kayane Dos Santos", "mat": 231}, {"nome": "Erika Paz Silva", "mat": 222}, {"nome": "Maria Heloisa Da Silva Dourado", "mat": 221}], "hag_mes_labels": ["OCT/25", "NOV/25", "DEC/25", "JAN/26", "FEB/26", "MAR/26"], "hag_mes_vals": [878, 2814, 2324, 2787, 2681, 1745], "hag_ultima_data": "23/03/2026"}, "omni": {"omni_disponivel": true, "omni_total": 819515, "omni_mes_labels": ["Nov/25", "Dez/25", "Jan/26", "Fev/26"], "omni_mes_vals": [174231, 307514, 232510, 105260], "omni_reasons": [{"nome": "Inatividade do time ou vendedor", "cnt": 270945}, {"nome": "inatividade_final_copiloto_inatividade", "cnt": 124440}, {"nome": "Sem contato", "cnt": 104338}, {"nome": "Sem retorno do candidato", "cnt": 97528}, {"nome": "Abandonou a conversa", "cnt": 53976}, {"nome": "Não respondeu", "cnt": 40379}, {"nome": "Sem interação", "cnt": 15421}, {"nome": "Encerrado - Motivo não informado", "cnt": 14227}, {"nome": "Já é aluno", "cnt": 8198}, {"nome": "Matrícula Realizada", "cnt": 7952}, {"nome": "Não aceitou a campanha atual", "cnt": 6965}, {"nome": "Já está matriculado", "cnt": 5673}, {"nome": "Aceitou assistência", "cnt": 5208}, {"nome": "Matrícula realizada - Venda concluída", "cnt": 4449}, {"nome": "Aceitou oferta", "cnt": 4266}], "omni_teams": [{"nome": "Captação - Hag Machado", "cnt": 277338}, {"nome": "CAPTAÇÃO EAD_MULTICANAIS", "cnt": 227041}, {"nome": "COMERCIAL PRESENCIAL - MARINGÁ/PR", "cnt": 82256}, {"nome": "HAG - Educação Continuada", "cnt": 37085}, {"nome": "COMERCIAL PRESENCIAL - LONDRINA/PR", "cnt": 32416}, {"nome": "CAPTAÇÃO EAD - GRADUAÇÃO", "cnt": 26272}, {"nome": "CAPTAÇÃO EAD - PÓS-GRADUACAO", "cnt": 22744}, {"nome": "COMERCIAL PRESENCIAL - CURITIBA/PR", "cnt": 15827}, {"nome": "CAPTAÇÃO EAD - ATIVO", "cnt": 15262}, {"nome": "Captação - Hag Machado - Continuada", "cnt": 13229}, {"nome": "CAPTAÇÃO EAD - PROFISSIONALIZANTES", "cnt": 12668}, {"nome": "CAPTAÇÃO EAD - TÉCNICOS", "cnt": 11938}, {"nome": "COMERCIAL PRESENCIAL - PONTA GROSSA/PR", "cnt": 9321}, {"nome": "CAPTAÇÃO EAD - GRADUAÇÃO (HIB/SAU)", "cnt": 7480}, {"nome": "CAPTAÇÃO PRESENCIAL - MEDICINA MARINGÁ", "cnt": 7363}], "omni_origins": {"OUTBOUND": 687854, "INBOUND": 130622, "ADS": 130, "UNKNOWN": 1}}};
 
 const fmt    = n => Number(n).toLocaleString('pt-BR');
 const fmtPct = n => n.toFixed(1) + '%';
@@ -2598,18 +2708,101 @@ function _uceMatData(v) {
   };
 }
 
+// Tooltip gauge global (mini velocímetro)
+let _gaugeTT = null;
+function _getGaugeTT() {
+  if (!_gaugeTT) {
+    _gaugeTT = document.createElement('div');
+    _gaugeTT.className = 'gauge-tooltip';
+    document.body.appendChild(_gaugeTT);
+  }
+  return _gaugeTT;
+}
+function _miniGaugeSvg(pct, color, size=80) {
+  const R=26, cx=size/2, cy=size*0.58, sw=7;
+  const angle = Math.PI + (Math.min(pct,100)/100)*Math.PI;
+  const x1=cx+R*Math.cos(Math.PI), y1=cy+R*Math.sin(Math.PI);
+  const x2=cx+R*Math.cos(angle),   y2=cy+R*Math.sin(angle);
+  const lg = (angle-Math.PI)>Math.PI?1:0;
+  return `<svg viewBox="0 0 ${size} ${Math.round(size*0.7)}" width="${size}" height="${Math.round(size*0.7)}">
+    <path d="M ${cx+R*Math.cos(Math.PI)} ${cy+R*Math.sin(Math.PI)} A ${R} ${R} 0 0 1 ${cx+R*Math.cos(0)} ${cy+R*Math.sin(0)}" fill="none" stroke="#e0e0e0" stroke-width="${sw}" stroke-linecap="round"/>
+    ${pct>0?`<path d="M ${x1} ${y1} A ${R} ${R} 0 ${lg} 1 ${x2} ${y2}" fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round"/>`:''}<text x="${cx}" y="${cy+3}" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="900" fill="${color}">${pct.toFixed(1)}%</text>
+  </svg>`;
+}
+function _showGaugeTooltip(e, totalReal, metaPer, label, isSem) {
+  const tt = _getGaugeTT();
+  const META = U.meta_total || U.meta_ps51 || 0;
+  const REAL = U.total_mat || 0;
+  const pctT = Math.min(100, REAL/META*100);
+  const pctP = metaPer>0 ? Math.min(100, totalReal/metaPer*100) : 0;
+  function gc(p) { return p>=100?'#27ae60':p>=80?'#f39c12':p>=60?'#e67e22':'#c0392b'; }
+  const lbl_per = isSem ? 'Meta/Semana' : 'Meta/Mês';
+  tt.innerHTML = `
+    <div class="gauge-tooltip-title">&#127919; ${label} — Atingimento</div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <div style="text-align:center">
+        ${_miniGaugeSvg(pctP,gc(pctP))}
+        <div style="font-size:0.58rem;font-weight:700;color:var(--sub);margin-top:2px">${lbl_per}: ${fmt(metaPer)}</div>
+      </div>
+      <div style="text-align:center">
+        ${_miniGaugeSvg(pctT,gc(pctT))}
+        <div style="font-size:0.58rem;font-weight:700;color:var(--sub);margin-top:2px">Meta Total: ${fmt(META)}</div>
+      </div>
+      <div>
+        <div style="font-size:0.65rem;font-weight:800;color:var(--txt)">${label}</div>
+        <div style="font-size:1.1rem;font-weight:900;color:var(--txt)">${fmt(totalReal)}</div>
+        <div style="font-size:0.6rem;color:var(--sub)">Realizado</div>
+        <div style="font-size:0.75rem;font-weight:700;color:${gc(pctP)};margin-top:4px">${pctP.toFixed(1)}% da meta</div>
+      </div>
+    </div>`;
+  tt.classList.add('show');
+  _posGaugeTT(e);
+}
+function _posGaugeTT(e) {
+  const tt = _getGaugeTT(); if (!tt) return;
+  const x = e.clientX + 14, y = e.clientY - 20;
+  const w = tt.offsetWidth, h = tt.offsetHeight;
+  tt.style.left = (x + w > window.innerWidth ? x - w - 28 : x) + 'px';
+  tt.style.top  = (y + h > window.innerHeight ? y - h : y) + 'px';
+}
+function _hideGaugeTooltip() {
+  const tt = _gaugeTT; if (tt) tt.classList.remove('show');
+}
+
 function _uceMatOpts() {
   const m = mob();
+  const isSem = (uceView === 'sem');
+  const metaPerArr = isSem
+    ? (U.sem_meta_vals || [])
+    : (U.meta_por_mes_val || []);
+  const labArr = isSem
+    ? (U.sem_labels || [])
+    : (U.meta_por_mes_lbl || []);
+  const metaLbl = isSem ? 'Meta/Sem' : 'Meta/Mês';
   return {
     responsive:true, maintainAspectRatio:false, animation:{duration:400},
     layout:{ padding:{ top: m?36:48 } },
     plugins:{
       legend:{ position:'top', labels:{ boxWidth:11, font:{ size:m?9:11 } } },
-      tooltip:{ callbacks:{ footer: items => 'Total: '+items.reduce((s,i)=>s+i.raw,0).toLocaleString('pt-BR') } },
+      tooltip:{
+        enabled:false,  // desativa tooltip padrão — usa o gauge custom
+        external(context) {
+          const el = context.chart.canvas;
+          el.onmousemove = null; // limpa listeners antigos
+        },
+      },
     },
     scales:{
       x:{ grid:{display:false}, ticks:{maxRotation:55, font:{size:m?6:8}}, stacked:true },
       y:{ beginAtZero:true, grid:{color:'#eeeeF5'}, ticks:{font:{size:m?9:10}}, stacked:true },
+    },
+    onHover(e, els, chart) {
+      if (!els || !els.length) { _hideGaugeTooltip(); return; }
+      const idx   = els[0].index;
+      const lbl   = chart.data.labels[idx] || '';
+      const total = chart.data.datasets.reduce((s,ds) => s+(ds.data[idx]||0), 0);
+      const metaP = metaPerArr[idx] || Math.round(U.meta_por_sem || (26196/21));
+      _showGaugeTooltip(e.native, total, metaP, lbl, isSem);
     },
   };
 }
@@ -2738,22 +2931,34 @@ function _renderUce() {
       `Topo ${fmt(U.total_mat_qlk||0)} · Ace ${fmt(U.total_ace||0)} · HAG ${fmt(hagMat)}`,
       fmt(internoMat), pctInt, fmt(hagMat), pctHag),
 
-    // 2. Boletos Vencido + A Vencer
-    `<div class="uce-kpi">
-      <div class="uce-kpi-lbl">&#128179; Boletos &amp; Pagamentos</div>
-      <div class="kpi-split">
-        <div class="kpi-split-main">
-          <div style="font-size:0.62rem;font-weight:800;text-transform:uppercase;opacity:0.6;margin-bottom:3px">Vencido</div>
-          <div class="uce-kpi-val" style="color:#ff6b6b">${fmt(U.bol_venc||0)}</div>
-          <div class="uce-kpi-sub">Aguardando regularização</div>
+    // 2. Receita — 1ª Mensalidade + Receita Prevista do Edital
+    (function() {
+      const TICKET   = 235;
+      const N_MESES  = 6;   // duração aproximada do edital PS51 (out/25 → mar/26)
+      const recPrime = totalMat * TICKET;
+      const recPrev  = totalMat * TICKET * N_MESES;
+      function fmtBRL(v) {
+        return 'R$ ' + Number(v).toLocaleString('pt-BR', {maximumFractionDigits:0});
+      }
+      return `<div class="uce-kpi">
+        <div class="uce-kpi-lbl">&#128181; Boletos Pagos &amp; Receita</div>
+        <div class="kpi-split">
+          <div class="kpi-split-main">
+            <div style="font-size:0.62rem;font-weight:800;text-transform:uppercase;opacity:0.6;margin-bottom:3px">Matrículas</div>
+            <div class="uce-kpi-val">${fmt(totalMat)}</div>
+            <div class="uce-kpi-sub" style="margin-top:4px">
+              <span style="opacity:0.75">1ª Mens.</span>
+              <span style="font-weight:900;color:#7de8a0">&nbsp;${fmtBRL(recPrime)}</span>
+            </div>
+          </div>
+          <div class="kpi-split-side" style="flex-direction:column;align-items:flex-end;justify-content:center;gap:4px">
+            <div style="font-size:0.55rem;font-weight:800;text-transform:uppercase;opacity:0.6;text-align:right">Rec. Prevista<br>Edital (${N_MESES}m)</div>
+            <div style="font-size:1.1rem;font-weight:900;color:#7ec8f8">${fmtBRL(recPrev)}</div>
+            <div style="font-size:0.55rem;opacity:0.5">Ticket: R$ ${TICKET}/mês</div>
+          </div>
         </div>
-        <div class="kpi-split-side" style="flex-direction:column;align-items:flex-end;justify-content:center;gap:4px">
-          <div style="font-size:0.6rem;font-weight:800;text-transform:uppercase;opacity:0.55">A Vencer</div>
-          <div style="font-size:1.3rem;font-weight:900;color:#7de8a0">${fmt(U.bol_aven||0)}</div>
-          <div style="font-size:0.62rem;opacity:0.55">Dentro do prazo</div>
-        </div>
-      </div>
-    </div>`,
+      </div>`;
+    })(),
 
     // 3. Total Qualificados
     simpleCard('&#128172; Total Qualificados',
@@ -2912,6 +3117,235 @@ function _renderUce() {
       </div>`;
   })();
 
+  /* ── META — Gauge (PS-aware) ───────────────────────────────── */
+  (function() {
+    const metaEl = document.getElementById('uce-meta-section');
+    if (!metaEl) return;
+
+    // ── Dados dependentes do PS selecionado ──
+    const META     = U.meta_total || U.meta_ps51 || 0;
+    const REAL     = U.total_mat      || 0;
+    const ACUM     = U.meta_acumulada || META;
+    const PCT_T    = META > 0 ? Math.min(100, (REAL / META  * 100)) : 0;
+    const PCT_A    = ACUM > 0 ? Math.min(100, (REAL / ACUM  * 100)) : 0;
+    const SEM      = U.sem_atual_edital || 1;
+    const N_SEMS   = U.n_sems_edital   || 22;
+    const META_SEM = Math.round(U.meta_por_sem || (META > 0 ? META/N_SEMS : 0));
+    const PS_LABEL = { all:'Consolidado', ps51:'PS 51-2026', ps52:'PS 52-2026' }[ucePS] || '';
+    const META_INDEF = META === 0;
+
+    // Atualizar título da seção dinamicamente
+    const secLbl = metaEl.closest('.sec')?.querySelector('.sec-label');
+    if (secLbl) secLbl.textContent = '🎯 Meta ' + PS_LABEL + ' — Atingimento';
+
+    // Cor dinâmica: verde ≥100%, laranja ≥80%, laranja-escuro ≥60%, vermelho <60%
+    function gaugeColor(p) {
+      if (META_INDEF)  return '#9e9e9e';
+      if (p >= 100)    return '#27ae60';
+      if (p >= 80)     return '#f39c12';
+      if (p >= 60)     return '#e67e22';
+      return '#c0392b';
+    }
+
+    // Gauge SVG maior (R=58) para destaque visual
+    function drawGauge(svgId, pct, color) {
+      const R=58, cx=72, cy=70, stroke=14;
+      const angle = Math.PI + (Math.min(pct,100)/100)*Math.PI;
+      function arc(a1,a2,col,sw) {
+        const x1=cx+R*Math.cos(a1), y1=cy+R*Math.sin(a1);
+        const x2=cx+R*Math.cos(a2), y2=cy+R*Math.sin(a2);
+        const lg=(a2-a1)>Math.PI?1:0;
+        return `<path d="M ${x1.toFixed(1)} ${y1.toFixed(1)} A ${R} ${R} 0 ${lg} 1 ${x2.toFixed(1)} ${y2.toFixed(1)}" fill="none" stroke="${col}" stroke-width="${sw}" stroke-linecap="round"/>`;
+      }
+      function tick(p) {
+        const a=Math.PI+(p/100)*Math.PI, ri=R-8, ro=R+1;
+        return `<line x1="${(cx+ri*Math.cos(a)).toFixed(1)}" y1="${(cy+ri*Math.sin(a)).toFixed(1)}" x2="${(cx+ro*Math.cos(a)).toFixed(1)}" y2="${(cy+ro*Math.sin(a)).toFixed(1)}" stroke="#bbb" stroke-width="1.5"/>`;
+      }
+      const displayPct = META_INDEF ? '—' : pct.toFixed(1)+'%';
+      return `<svg id="${svgId}" viewBox="0 0 144 80" width="144" height="80" class="gauge-svg">
+        ${arc(Math.PI,0,'#e0e0e0',stroke)}
+        ${pct>0&&!META_INDEF?arc(Math.PI,angle,color,stroke):''}
+        ${[25,50,75,100].map(p=>tick(p)).join('')}
+        <text x="${cx}" y="${cy-4}" text-anchor="middle" dominant-baseline="middle" font-size="16" font-weight="900" fill="${color}">${displayPct}</text>
+      </svg>`;
+    }
+
+    const colorT = gaugeColor(PCT_T);
+    const colorA = gaugeColor(PCT_A);
+
+    // Layout 3 colunas: gauge-grande | gauge-grande | tabela-menor
+    function statPill(lbl, val, color='var(--sub)') {
+      return `<div style="flex:1;text-align:center;padding:6px 4px;background:#f5f5f5;border-radius:8px;min-width:80px">
+        <div style="font-size:0.55rem;font-weight:700;text-transform:uppercase;color:var(--sub);line-height:1.2">${lbl}</div>
+        <div style="font-size:1rem;font-weight:900;color:${color};line-height:1.1;margin-top:2px">${val}</div>
+      </div>`;
+    }
+
+    metaEl.innerHTML = `
+      <div style="display:grid;grid-template-columns:230px 230px 1fr;gap:12px;align-items:stretch">
+
+        <!-- Gauge 1: vs Meta Total -->
+        <div class="gauge-card" style="display:flex;flex-direction:column">
+          <div class="gauge-hdr">META TOTAL</div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 12px 12px">
+            ${drawGauge('g1',PCT_T,colorT)}
+            <div style="font-size:0.62rem;color:var(--sub);margin:5px 0 10px;font-weight:600;text-align:center">
+              ${META_INDEF ? 'Meta não definida para '+PS_LABEL : 'do total &nbsp;·&nbsp; Meta: '+fmt(META)}
+            </div>
+            <div style="display:flex;gap:6px;width:100%">
+              ${statPill('Realizado', fmt(REAL), colorT)}
+              ${statPill('Faltam', META_INDEF ? '—' : fmt(Math.max(0,META-REAL)))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Gauge 2: vs Ritmo Esperado -->
+        <div class="gauge-card" style="display:flex;flex-direction:column">
+          <div class="gauge-hdr" style="background:#1a6b6b">RITMO ESPERADO</div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 12px 12px">
+            ${drawGauge('g2',PCT_A,colorA)}
+            <div style="font-size:0.62rem;color:var(--sub);margin:5px 0 10px;font-weight:600;text-align:center">
+              do ritmo esperado &nbsp;·&nbsp; W${String(SEM).padStart(2,'0')} de ${N_SEMS}
+            </div>
+            <div style="display:flex;gap:6px;width:100%">
+              ${statPill('Meta até W'+String(SEM).padStart(2,'0'), META_INDEF ? '—' : fmt(ACUM))}
+              ${statPill('Meta/Sem', META_INDEF ? '—' : fmt(META_SEM))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabela meta por mês (menor) -->
+        <div class="gauge-card" style="overflow:auto;display:flex;flex-direction:column">
+          <div class="gauge-hdr">&#128197; Meta por Mês — ${PS_LABEL}</div>
+          ${META_INDEF
+            ? `<div style="padding:20px;text-align:center;color:var(--sub);font-size:0.78rem;flex:1;display:flex;align-items:center;justify-content:center">
+                <div>&#9899; Meta <strong>${PS_LABEL}</strong><br>ainda não definida.</div>
+              </div>`
+            : `<table style="width:100%;border-collapse:collapse;font-size:0.68rem">
+                <thead>
+                  <tr style="background:var(--uce-blue2);color:#fff">
+                    <th style="padding:5px 8px;text-align:left;font-size:0.58rem;letter-spacing:0.5px;text-transform:uppercase">Mês</th>
+                    <th style="padding:5px 8px;text-align:right;font-size:0.58rem">Meta</th>
+                    <th style="padding:5px 8px;text-align:right;font-size:0.58rem">Realizado</th>
+                    <th style="padding:5px 8px;text-align:right;font-size:0.58rem">Ating.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${(()=>{
+                    const mlbl = U.meta_por_mes_lbl || [];
+                    const mval = U.meta_por_mes_val || [];
+                    const rlbl = U.mes_labels   || [];
+                    const rint = U.mes_interno   || [];
+                    const rhag = U.mes_hag       || [];
+                    const realMap = {};
+                    rlbl.forEach((l,i) => { realMap[l] = (rint[i]||0)+(rhag[i]||0); });
+                    return mlbl.map((lbl,i) => {
+                      const mv = mval[i]||0;
+                      const rv = realMap[lbl]||0;
+                      const at = mv>0?(rv/mv*100).toFixed(1):'—';
+                      const cor = rv>=mv?'#27ae60':rv>=mv*0.8?'#f39c12':'#c0392b';
+                      const rowCls = i%2===0?'background:#f9f9f9':'';
+                      return `<tr style="${rowCls};border-bottom:1px solid var(--border)">
+                        <td style="padding:5px 8px;font-weight:700">${lbl}</td>
+                        <td style="padding:5px 8px;text-align:right;color:var(--sub)">${fmt(mv)}</td>
+                        <td style="padding:5px 8px;text-align:right;font-weight:900">${rv>0?fmt(rv):'—'}</td>
+                        <td style="padding:5px 8px;text-align:right;font-weight:800;color:${rv>0?cor:'var(--sub)'}">${rv>0?at+'%':'—'}</td>
+                      </tr>`;
+                    }).join('');
+                  })()}
+                  <tr style="background:var(--uce-blue);color:#fff;font-weight:900">
+                    <td style="padding:5px 8px">TOTAL</td>
+                    <td style="padding:5px 8px;text-align:right">${fmt(META)}</td>
+                    <td style="padding:5px 8px;text-align:right">${fmt(REAL)}</td>
+                    <td style="padding:5px 8px;text-align:right">${PCT_T.toFixed(1)}%</td>
+                  </tr>
+                </tbody>
+              </table>`
+          }
+        </div>
+
+      </div>`;
+  })();
+
+  /* ── CAPACIDADE — Análise por Canal ────────────────────────── */
+  (function() {
+    const capEl = document.getElementById('uce-cap-section');
+    if (!capEl) return;
+    const HC_INT   = U.cap_hc_int    || 110;
+    const HC_HAG   = U.cap_hc_hag    || 50;
+    const CAP_I_M  = U.cap_int_mes   || 7920;
+    const CAP_H_M  = U.cap_hag_mes   || 3600;
+    const CAP_T_M  = U.cap_total_mes || 11520;
+    const CAP_I_S  = U.cap_int_sem   || 1829;
+    const CAP_H_S  = U.cap_hag_sem   || 831;
+    const CAP_T_S  = CAP_I_S + CAP_H_S;
+    const MAT_HC   = U.mat_hc_mes    || 72;
+    const REAL_I   = (U.total_mat_qlk||0) + (U.total_ace||0);
+    const REAL_H   = U.total_hag     || 0;
+    const REAL_T   = U.total_mat     || 0;
+    const pctRI    = CAP_I_M > 0 ? Math.min(100,(REAL_I/CAP_I_M*100)).toFixed(1) : 0;
+    const pctRH    = CAP_H_M > 0 ? Math.min(100,(REAL_H/CAP_H_M*100)).toFixed(1) : 0;
+    const pctRT    = CAP_T_M > 0 ? Math.min(100,(REAL_T/CAP_T_M*100)).toFixed(1) : 0;
+    function capRow(lbl, val, extra='') {
+      return `<div class="cap-row"><span class="cap-lbl">${lbl}</span><span class="cap-val">${val}${extra}</span></div>`;
+    }
+    function capBar(pct, cor) {
+      return `<div class="cap-bar-wrap">
+        <div class="cap-bar-lbl"><span>Realizado vs Capacidade</span><span>${pct}%</span></div>
+        <div class="cap-bar-bg"><div class="cap-bar-fill" style="width:${pct}%;background:${cor}"></div></div>
+      </div>`;
+    }
+    capEl.innerHTML = `
+      <div class="cap-section">
+
+        <!-- Geral -->
+        <div class="cap-card">
+          <div class="cap-hdr geral">&#127760; Geral — Interno + HAG</div>
+          <div class="cap-body">
+            ${capRow('Total HCs', (HC_INT+HC_HAG)+' consultores')}
+            ${capRow('Capacidade / Mês', fmt(CAP_T_M)+' mat')}
+            ${capRow('Capacidade / Semana', '~'+fmt(CAP_T_S)+' mat')}
+            ${capRow('Realizado (PS51)', fmt(REAL_T)+' mat')}
+            ${capBar(pctRT,'linear-gradient(90deg,#1565c0,#42a5f5)')}
+            <div style="font-size:0.62rem;color:var(--sub);margin-top:8px">
+              Premissa: ${MAT_HC} mat/HC/mês (3 mat/dia × 24 dias)
+            </div>
+          </div>
+        </div>
+
+        <!-- Interno (Topo+Ace) -->
+        <div class="cap-card">
+          <div class="cap-hdr interno">&#128188; Interno — Topo + Aceleradores</div>
+          <div class="cap-body">
+            ${capRow('HCs Internos', HC_INT+' consultores')}
+            ${capRow('Capacidade / Mês', fmt(CAP_I_M)+' mat')}
+            ${capRow('Capacidade / Semana', '~'+fmt(CAP_I_S)+' mat')}
+            ${capRow('Realizado (PS51)', fmt(REAL_I)+' mat')}
+            ${capBar(pctRI,'linear-gradient(90deg,#00695c,#00838f)')}
+            <div style="font-size:0.62rem;color:var(--sub);margin-top:8px">
+              ${HC_INT} HCs × ${MAT_HC} mat/mês · Utilização: ${pctRI}%
+            </div>
+          </div>
+        </div>
+
+        <!-- Externo (HAG) -->
+        <div class="cap-card">
+          <div class="cap-hdr externo">&#127968; Externo — HAG (EAD UCE)</div>
+          <div class="cap-body">
+            ${capRow('HCs HAG', HC_HAG+' consultores')}
+            ${capRow('Capacidade / Mês', fmt(CAP_H_M)+' mat')}
+            ${capRow('Capacidade / Semana', '~'+fmt(CAP_H_S)+' mat')}
+            ${capRow('Realizado (PS51)', fmt(REAL_H)+' mat')}
+            ${capBar(pctRH,'linear-gradient(90deg,#5e35b1,#9575cd)')}
+            <div style="font-size:0.62rem;color:var(--sub);margin-top:8px">
+              ${HC_HAG} HCs × ${MAT_HC} mat/mês (meta contratual HAG)
+            </div>
+          </div>
+        </div>
+
+      </div>`;
+  })();
+
   /* Origem */
   const totalOrig = (U.orig_vals||[]).reduce((a,b)=>a+b,0);
   document.getElementById('uce-orig-section').innerHTML = `
@@ -2930,6 +3364,14 @@ function _renderUce() {
     type:'bar', data:_uceMatData(uceView), options:_uceMatOpts(),
     plugins:[uceMatPlugin],
   });
+  // Esconder tooltip gauge ao sair do canvas
+  (function() {
+    const cv = document.getElementById('c-uce-mat');
+    if (cv) {
+      cv.addEventListener('mouseleave', _hideGaugeTooltip);
+      cv.addEventListener('mousemove',  e => _posGaugeTT(e));
+    }
+  })();
 
   /* Doughnut removido */
 
@@ -2986,58 +3428,86 @@ function _renderUce() {
   });
 }
 
-/* ── Produtos por categoria ──────────────────────────────── */
+/* ── Produtos por categoria — Tabela ─────────────────────── */
 (function() {
   const prods = U.produtos || [];
+  const el    = document.getElementById('uce-prod-section');
+  if (!el) return;
   if (!prods.length) {
-    const el = document.getElementById('uce-prod-section');
-    if (el) el.innerHTML = '<p style="font-size:.8rem;color:var(--sub);padding:12px">Dados de produtos não disponíveis para este filtro.</p>';
+    el.innerHTML = '<p style="font-size:.8rem;color:var(--sub);padding:12px">Dados de produtos não disponíveis para este filtro.</p>';
     return;
   }
 
-  const META = {
-    'Graduação':     { cls:'grad', icon:'🎓', desc:'Bacharelado, Licenciatura & Tecnólogo' },
-    'Pós-Graduação': { cls:'pos',  icon:'🏅', desc:'Especialização & MBA' },
-    'Continuada':    { cls:'tec',  icon:'📋', desc:'Técnico & Profissionalizante' },
+  const ICONS = {
+    'Graduação':     '&#127891;',
+    'Pós-Graduação': '&#127941;',
+    'Continuada':    '&#128203;',
+  };
+  const COLORS = {
+    'Graduação':     '#1565c0',
+    'Pós-Graduação': '#6a1b9a',
+    'Continuada':    '#2e7d32',
   };
 
-  const totalMat = prods.reduce((s, p) => s + p.mat, 0);
+  const totalMat  = prods.reduce((s, p) => s + p.mat,  0);
+  const totalQual = prods.reduce((s, p) => s + p.qual, 0);
+  const totalBV   = prods.reduce((s, p) => s + (p.bv  || 0), 0);
+  const totalBAV  = prods.reduce((s, p) => s + (p.bav || 0), 0);
 
-  const cards = prods.map(p => {
-    const m = META[p.cat] || { cls:'', icon:'📋', desc:p.cat };
-    const pctTotal = totalMat > 0 ? (p.mat / totalMat * 100).toFixed(1) : '0.0';
-    const bolAlert = p.bv > 0
-      ? `<div class="uce-prod-row"><span>Boleto Vencido</span><span class="uce-prod-row-val" style="color:#c0392b">${fmt(p.bv)}</span></div>`
-      : '';
-    const bolAVenc = p.bav > 0
-      ? `<div class="uce-prod-row"><span>Boleto a Vencer</span><span class="uce-prod-row-val">${fmt(p.bav)}</span></div>`
-      : '';
-    return `
-    <div class="uce-prod-card ${m.cls}">
-      <div class="uce-prod-tx">${p.tx}%</div>
-      <div class="uce-prod-icon">${m.icon}</div>
-      <div class="uce-prod-name">${p.cat}</div>
-      <div class="uce-prod-mat ${m.cls}">${fmt(p.mat)}</div>
-      <div class="uce-prod-bar-bg">
-        <div class="uce-prod-bar-fill ${m.cls}" style="width:${p.pct_bar}%"></div>
-      </div>
-      <div class="uce-prod-rows">
-        <div class="uce-prod-row">
-          <span>Qualificados</span>
-          <span class="uce-prod-row-val">${fmt(p.qual)}</span>
+  const rows = prods.map((p, i) => {
+    const icon  = ICONS[p.cat]  || '&#128203;';
+    const color = COLORS[p.cat] || '#1a1a3e';
+    const pctT  = totalMat > 0 ? (p.mat / totalMat * 100).toFixed(1) : '0.0';
+    const barW  = totalMat > 0 ? Math.round(p.mat / totalMat * 100)  : 0;
+    const rowBg = i % 2 === 0 ? '#fafafa' : '#ffffff';
+    return `<tr style="background:${rowBg};border-bottom:1px solid var(--border)">
+      <td style="padding:10px 14px;font-weight:800;white-space:nowrap">
+        <span style="color:${color};margin-right:6px">${icon}</span>${p.cat}
+      </td>
+      <td style="padding:10px 14px;text-align:right;font-size:1.05rem;font-weight:900;color:${color}">${fmt(p.mat)}</td>
+      <td style="padding:10px 14px;text-align:right;color:var(--sub)">${fmt(p.qual)}</td>
+      <td style="padding:10px 14px;text-align:right;font-weight:700;color:#1565c0">${p.tx}%</td>
+      <td style="padding:10px 18px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="flex:1;background:#e8e8f2;border-radius:4px;height:8px;min-width:80px">
+            <div style="width:${barW}%;background:${color};height:8px;border-radius:4px;transition:width .4s"></div>
+          </div>
+          <span style="font-size:0.72rem;font-weight:700;color:var(--sub);min-width:36px;text-align:right">${pctT}%</span>
         </div>
-        <div class="uce-prod-row">
-          <span>Part. no Total</span>
-          <span class="uce-prod-row-val">${pctTotal}%</span>
-        </div>
-        ${bolAlert}
-        ${bolAVenc}
-      </div>
-    </div>`;
+      </td>
+      <td style="padding:10px 14px;text-align:right;color:${p.bv>0?'#c0392b':'var(--sub)'};font-weight:${p.bv>0?'700':'400'}">${p.bv>0?fmt(p.bv):'—'}</td>
+      <td style="padding:10px 14px;text-align:right;color:var(--sub)">${p.bav>0?fmt(p.bav):'—'}</td>
+    </tr>`;
   }).join('');
 
-  const el = document.getElementById('uce-prod-section');
-  if (el) el.innerHTML = `<div class="uce-prod-grid">${cards}</div>`;
+  el.innerHTML = `
+    <div style="overflow-x:auto;border-radius:var(--r);box-shadow:var(--shadow)">
+      <table style="width:100%;border-collapse:collapse;font-size:0.82rem;background:#fff">
+        <thead>
+          <tr style="background:var(--az);color:#fff">
+            <th style="padding:10px 14px;text-align:left;font-size:0.65rem;letter-spacing:0.8px;text-transform:uppercase;white-space:nowrap">Produto</th>
+            <th style="padding:10px 14px;text-align:right;font-size:0.65rem;letter-spacing:0.8px;text-transform:uppercase;white-space:nowrap">Matrículas</th>
+            <th style="padding:10px 14px;text-align:right;font-size:0.65rem;letter-spacing:0.8px;text-transform:uppercase;white-space:nowrap">Qualificados</th>
+            <th style="padding:10px 14px;text-align:right;font-size:0.65rem;letter-spacing:0.8px;text-transform:uppercase;white-space:nowrap">Tx. Conv.</th>
+            <th style="padding:10px 18px;text-align:left;font-size:0.65rem;letter-spacing:0.8px;text-transform:uppercase;min-width:160px">Part. no Total</th>
+            <th style="padding:10px 14px;text-align:right;font-size:0.65rem;letter-spacing:0.8px;text-transform:uppercase;white-space:nowrap">Bol. Vencido</th>
+            <th style="padding:10px 14px;text-align:right;font-size:0.65rem;letter-spacing:0.8px;text-transform:uppercase;white-space:nowrap">Bol. a Vencer</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+        <tfoot>
+          <tr style="background:var(--az-md);color:#fff;font-weight:900">
+            <td style="padding:10px 14px">TOTAL</td>
+            <td style="padding:10px 14px;text-align:right">${fmt(totalMat)}</td>
+            <td style="padding:10px 14px;text-align:right">${fmt(totalQual)}</td>
+            <td style="padding:10px 14px;text-align:right">—</td>
+            <td style="padding:10px 18px">100%</td>
+            <td style="padding:10px 14px;text-align:right;color:${totalBV>0?'#ff8a80':'#fff'}">${totalBV>0?fmt(totalBV):'—'}</td>
+            <td style="padding:10px 14px;text-align:right">${totalBAV>0?fmt(totalBAV):'—'}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>`;
 })();
 
 /* Seletor Processo Seletivo */
