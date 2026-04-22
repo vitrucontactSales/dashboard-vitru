@@ -1544,7 +1544,7 @@ footer {
     </div>
     <div class="h-right">
       <span class="gen">Data e hora da última atualização</span><br>
-      <strong>22/04/2026 08:38</strong>
+      <strong>22/04/2026 09:51</strong>
     </div>
   </div>
 </header>
@@ -2700,13 +2700,12 @@ function _renderUceRanking() {
       return `<tr>
         <td class="hc-rank">${i+1}</td>
         <td class="hc-nome" title="${r.nome}">${nome}</td>
+        <td class="hc-pag">${fmt(r.qual||0)}</td>
         <td class="hc-mat">
           ${fmt(r.mat||0)}
           <div class="hc-bar-mini-bg"><div class="hc-bar-mini-fill-int" style="width:${pct}%"></div></div>
         </td>
-        <td class="hc-pag">${fmt(r.qual||0)}</td>
         <td class="hc-pag">${(r.tx!=null?r.tx:0)}%</td>
-        <td class="hc-tkm">${fmt(r.bol_venc||0)}</td>
       </tr>`;
     }).join('');
   }
@@ -2717,13 +2716,12 @@ function _renderUceRanking() {
       return `<tr>
         <td class="hc-rank">${i+1}</td>
         <td class="hc-nome" title="${r.nome}">${nome}</td>
+        <td class="hc-pag">${fmt(r.qual||0)}</td>
         <td class="hc-mat">
           ${fmt(r.mat||0)}
           <div class="hc-bar-mini-bg"><div class="hc-bar-mini-fill-hag" style="width:${pct}%"></div></div>
         </td>
-        <td class="hc-pag">${fmt(r.qual||0)}</td>
         <td class="hc-pag">${(r.tx!=null?r.tx:0)}%</td>
-        <td class="hc-tkm">${fmt(r.bol_venc||0)}</td>
       </tr>`;
     }).join('');
   }
@@ -2739,10 +2737,10 @@ function _renderUceRanking() {
           <table class="hc-tbl">
             <thead>
               <tr>
-                <th>#</th><th>Consultor</th><th>Matrículas</th><th>Qualif</th><th>Tx Conv</th><th>Bol. Venc</th>
+                <th>#</th><th>Consultor</th><th>Qualificados</th><th>Matrículas</th><th>Tx Conv</th>
               </tr>
             </thead>
-            <tbody>${rkInt.length ? _rowsInt(rkInt, maxMatInt) : `<tr><td colspan="6" style="text-align:center;color:var(--sub);padding:14px;font-size:0.75rem">Sem consultores internos no PS selecionado</td></tr>`}</tbody>
+            <tbody>${rkInt.length ? _rowsInt(rkInt, maxMatInt) : `<tr><td colspan="5" style="text-align:center;color:var(--sub);padding:14px;font-size:0.75rem">Sem consultores internos no PS selecionado</td></tr>`}</tbody>
           </table>
         </div>
       </div>
@@ -2755,10 +2753,10 @@ function _renderUceRanking() {
           <table class="hc-tbl">
             <thead>
               <tr>
-                <th>#</th><th>Consultor</th><th>Matrículas</th><th>Qualif</th><th>Tx Conv</th><th>Bol. Venc</th>
+                <th>#</th><th>Consultor</th><th>Qualificados</th><th>Matrículas</th><th>Tx Conv</th>
               </tr>
             </thead>
-            <tbody>${rkHag.length ? _rowsHag(rkHag, maxMatHag) : `<tr><td colspan="6" style="text-align:center;color:var(--sub);padding:14px;font-size:0.75rem">Sem dados de consultores HAG para este PS (a Base_HAG_52 é agregada por semana)</td></tr>`}</tbody>
+            <tbody>${rkHag.length ? _rowsHag(rkHag, maxMatHag) : `<tr><td colspan="5" style="text-align:center;color:var(--sub);padding:14px;font-size:0.75rem">Sem dados de consultores HAG para este PS (a Base_HAG_52 é agregada por semana)</td></tr>`}</tbody>
           </table>
         </div>
       </div>
