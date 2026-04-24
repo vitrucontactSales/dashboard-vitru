@@ -1605,7 +1605,7 @@ footer {
     </div>
     <div class="h-right">
       <span class="gen">Data e hora da última atualização</span><br>
-      <strong>24/04/2026 10:48</strong>
+      <strong>24/04/2026 11:03</strong>
     </div>
   </div>
 </header>
@@ -4476,17 +4476,23 @@ function _renderECUni() {
     { key:'prof', label:'Profissionalizantes', icon:'💼', cor:'#e65100' },
     { key:'tec',  label:'Técnicos',            icon:'🔧', cor:'#2e7d32' },
   ];
-  // Totais consolidados
-  let totMat=0, totSede=0, totHag=0, totLeads=0, totResp=0;
+  // Totais consolidados + média ponderada das Tx de Conversão por produto
+  let totMat=0, totSede=0, totHag=0, totLeads=0, totResp=0, _somaMatTx=0;
   produtos.forEach(p => {
     const d = EC[p.key] || {};
-    totMat   += d.total_acum     || 0;
+    const mat = d.total_acum     || 0;
+    const tx  = d.tx_conversao   || 0;
+    totMat   += mat;
     totSede  += d.mat_sede       || 0;
     totHag   += d.mat_hag        || 0;
     totLeads += d.total_leads    || 0;
     totResp  += d.total_respostas|| 0;
+    _somaMatTx += mat * tx;  // para média ponderada
   });
-  const txConvUni = totResp > 0 ? (totMat/totResp*100).toFixed(2) : '—';
+  // Taxa de Conversão Uniasselvi EC = média ponderada das tx por produto,
+  // usando as matrículas como peso. Consistente com a coluna "tx_conversao" da
+  // planilha RESULTADOS_EC (15% Pós · 18% Prof · 17% Tec).
+  const txConvUni = totMat > 0 ? (_somaMatTx / totMat).toFixed(2) : '—';
 
   // ── KPIs topo — Total + 3 cards por produto ─────────────────
   const ecGrid = document.getElementById('ec-kpi-grid');
@@ -4547,7 +4553,7 @@ function _renderECUni() {
           <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--sub);margin-bottom:8px">&#128200; Taxa de Conversão — Uniasselvi EC</div>
           <div style="font-size:2.8rem;font-weight:900;color:#2e7d32;line-height:1;letter-spacing:-1px">${txConvUni}%</div>
           <div style="font-size:0.78rem;color:var(--sub);margin-top:8px;font-weight:600">
-            Matrículas &divide; Respostas efetivas (Conversas qualificadas)
+            Média ponderada das Tx. por produto (Pós ${EC.pos?.tx_conversao||0}% · Prof ${EC.prof?.tx_conversao||0}% · Téc ${EC.tec?.tx_conversao||0}%)
           </div>
         </div>
         <div style="display:flex;gap:24px;flex-wrap:wrap">
