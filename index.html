@@ -1870,7 +1870,7 @@ body.auth-pending #app-root { display: none !important; }
     </div>
     <div class="h-right">
       <span class="gen">Data e hora da última atualização</span><br>
-      <strong>04/05/2026 10:25</strong>
+      <strong>04/05/2026 10:49</strong>
     </div>
   </div>
 </header>
@@ -3262,6 +3262,23 @@ function setBrand(brand) {
   document.getElementById('btn-uce').classList.toggle('inactive', brand!=='uce');
   document.getElementById('btn-vit').classList.toggle('inactive', brand!=='vit');
   document.getElementById('btn-ec').classList.toggle('inactive',  brand!=='ec');
+  // Quando entrar na aba EC: força a renderização da Análise Regional (mapa Leaflet)
+  // — isso cobre o caso comum em que o mapa nunca foi inicializado porque a aba estava oculta
+  if (brand === 'ec') {
+    [100, 400, 800].forEach(delay => {
+      setTimeout(() => {
+        try {
+          if (typeof ecBrand !== 'undefined' && ecBrand === 'uce' && typeof _renderECRegional === 'function') {
+            _renderECRegional();
+          }
+          if (window._ecRegLeafletMap) {
+            window._ecRegLeafletMap.invalidateSize();
+            window._ecRegLeafletMap.setView([-15, -52], 4);
+          }
+        } catch(e) {}
+      }, delay);
+    });
+  }
 }
 // Inicializar na visão geral
 setBrand('vit');
@@ -4494,9 +4511,21 @@ function setEcBrand(b) {
   // Análise regional só aparece em Unicesumar
   const regWrap = document.getElementById('ec-regional-wrap');
   if (regWrap) regWrap.style.display = (b === 'uce') ? '' : 'none';
-  // Força reflow do mapa Leaflet quando trocar pra Unicesumar (dimensões podem estar 0)
-  if (b === 'uce' && window._ecRegLeafletMap) {
-    setTimeout(() => { try { window._ecRegLeafletMap.invalidateSize(); } catch(e) {} }, 200);
+  // Quando trocar pra Unicesumar: força re-render do mapa em múltiplos timings
+  // (cobre os casos: mapa nunca foi inicializado, ou foi com dimensões zero)
+  if (b === 'uce') {
+    [50, 200, 500, 1000].forEach(delay => {
+      setTimeout(() => {
+        try {
+          if (window._ecRegLeafletMap) {
+            window._ecRegLeafletMap.invalidateSize();
+            window._ecRegLeafletMap.setView([-15, -52], 4);
+          } else if (typeof _renderECRegional === 'function') {
+            _renderECRegional();   // primeira inicialização
+          }
+        } catch(e) {}
+      }, delay);
+    });
   }
   _renderEC();
 }
@@ -5452,11 +5481,14 @@ function _renderECRegional() {
 
   // ── Mapa real (Leaflet + OpenStreetMap) ──────────────────
   const mapEl = document.getElementById('ec-reg-leaflet-map');
-  if (mapEl && typeof L !== 'undefined') {
+  // Só inicializa se o container está visível (largura > 0).
+  // Caso contrário, agenda a renderização pra quando o usuário entrar na bandeira Unicesumar.
+  const mapVisible = mapEl && mapEl.offsetWidth > 0 && mapEl.offsetHeight > 0;
+  if (mapEl && typeof L !== 'undefined' && mapVisible) {
     // Inicializa mapa apenas uma vez
     if (!window._ecRegLeafletMap) {
       window._ecRegLeafletMap = L.map('ec-reg-leaflet-map', {
-        center: [-15, -52],          // centro do Brasil
+        center: [-15, -52],
         zoom: 4,
         scrollWheelZoom: true,
         zoomControl: true,
@@ -5466,7 +5498,21 @@ function _renderECRegional() {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }).addTo(window._ecRegLeafletMap);
       window._ecRegLayer = L.layerGroup().addTo(window._ecRegLeafletMap);
+      // ResizeObserver: refaz layout sempre que o container mudar de tamanho
+      try {
+        const ro = new ResizeObserver(() => {
+          if (window._ecRegLeafletMap) window._ecRegLeafletMap.invalidateSize();
+        });
+        ro.observe(mapEl);
+      } catch(e) {}
     }
+    // Garante dimensões corretas e re-centraliza no Brasil
+    setTimeout(() => {
+      try {
+        window._ecRegLeafletMap.invalidateSize();
+        window._ecRegLeafletMap.setView([-15, -52], 4);
+      } catch(e) {}
+    }, 50);
     // Limpa bolhas antigas
     window._ecRegLayer.clearLayers();
 
