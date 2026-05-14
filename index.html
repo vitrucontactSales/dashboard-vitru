@@ -1870,7 +1870,7 @@ body.auth-pending #app-root { display: none !important; }
     </div>
     <div class="h-right">
       <span class="gen">Data e hora da última atualização</span><br>
-      <strong>14/05/2026 15:10</strong>
+      <strong>14/05/2026 16:01</strong>
     </div>
   </div>
 </header>
@@ -4976,13 +4976,13 @@ function _renderECUni() {
   const totGeral = totMat + haTotal;        // Total = Interno + HAG + Home Agent
   const txConvUni = totMat > 0 ? (_somaMatTx / totMat).toFixed(2) : '—';
 
-  // ── KPIs topo — Total + 3 cards por produto + Home Agent ────
+  // ── KPIs topo — Total + 3 cards por produto + Terceirizada ──
   const ecGrid = document.getElementById('ec-kpi-grid');
   if (ecGrid) {
     const cardTotal = `<div class="uce-kpi">
       <div class="uce-kpi-lbl">&#127891; Ed. Continuada — Uniasselvi (Total)</div>
       <div class="uce-kpi-val">${fmt(totGeral)}</div>
-      <div class="uce-kpi-sub">Interno ${fmt(totSede)} · HAG ${fmt(totHag)} · Home Agent ${fmt(haTotal)}</div>
+      <div class="uce-kpi-sub">Interno ${fmt(totSede)} · Terceirizada ${fmt(haTotal)}</div>
     </div>`;
     const cards = produtos.map(p => {
       const d = EC[p.key] || {};
@@ -4991,53 +4991,45 @@ function _renderECUni() {
       return `<div class="uce-kpi">
         <div class="uce-kpi-lbl">${p.icon} ${p.label}</div>
         <div class="uce-kpi-val">${fmt(totalProd)}</div>
-        <div class="uce-kpi-sub">Interno ${fmt(d.mat_sede||0)} · HAG ${fmt(d.mat_hag||0)} · Home Agent ${fmt(haN)} · Tx ${d.tx_conversao||0}%</div>
+        <div class="uce-kpi-sub">Interno ${fmt(d.mat_sede||0)} · Terceirizada ${fmt(haN)}</div>
       </div>`;
     }).join('');
     const cardHA = `<div class="uce-kpi" style="background:linear-gradient(135deg,#0f766e 0%,#14b8a6 100%);color:#fff">
-      <div class="uce-kpi-lbl" style="color:rgba(255,255,255,0.85)">&#128241; Home Agent — Total</div>
+      <div class="uce-kpi-lbl" style="color:rgba(255,255,255,0.85)">&#128241; Terceirizada — Total</div>
       <div class="uce-kpi-val" style="color:#fff">${fmt(haTotal)}</div>
       <div class="uce-kpi-sub" style="color:rgba(255,255,255,0.8)">Pós ${fmt(haPorMod.pos)} · Prof ${fmt(haPorMod.prof)} · Téc ${fmt(haPorMod.tec)}</div>
     </div>`;
     ecGrid.innerHTML = cardTotal + cards + cardHA;
   }
 
-  // ── % Participação Interno × HAG × Home Agent (3 canais) ────
-  const totVol = totSede + totHag + haTotal;
+  // ── % Participação Interno × Terceirizada (2 canais) ────────
+  const totVol = totSede + haTotal;
   const pctInt = totVol > 0 ? (totSede/totVol*100).toFixed(1) : '0.0';
-  const pctHag = totVol > 0 ? (totHag/totVol*100).toFixed(1)  : '0.0';
-  const pctHA  = totVol > 0 ? (haTotal/totVol*100).toFixed(1) : '0.0';
+  const pctTer = totVol > 0 ? (haTotal/totVol*100).toFixed(1) : '0.0';
   const partEl = document.getElementById('ec-part-section');
   if (partEl) partEl.innerHTML = `
     <div style="background:var(--card);border-radius:var(--r);padding:20px 24px;box-shadow:var(--shadow);margin-bottom:14px">
-      <div style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:16px">
-        <div style="flex:1;min-width:160px">
+      <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:16px">
+        <div style="flex:1;min-width:180px">
           <div style="font-size:0.62rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--sub);margin-bottom:6px">&#128188; Interno (Sede)</div>
-          <div style="font-size:2rem;font-weight:900;color:#1565c0;line-height:1">${pctInt}%</div>
+          <div style="font-size:2.2rem;font-weight:900;color:#1565c0;line-height:1">${pctInt}%</div>
           <div style="font-size:0.7rem;color:var(--sub);margin-top:4px">${fmt(totSede)} matrículas</div>
         </div>
-        <div style="flex:1;min-width:160px">
-          <div style="font-size:0.62rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--sub);margin-bottom:6px">&#128101; HAG (Terceirizada)</div>
-          <div style="font-size:2rem;font-weight:900;color:#6a1b9a;line-height:1">${pctHag}%</div>
-          <div style="font-size:0.7rem;color:var(--sub);margin-top:4px">${fmt(totHag)} matrículas</div>
-        </div>
-        <div style="flex:1;min-width:160px">
-          <div style="font-size:0.62rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--sub);margin-bottom:6px">&#128241; Home Agent</div>
-          <div style="font-size:2rem;font-weight:900;color:#0d9488;line-height:1">${pctHA}%</div>
+        <div style="flex:1;min-width:180px">
+          <div style="font-size:0.62rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--sub);margin-bottom:6px">&#128241; Terceirizada</div>
+          <div style="font-size:2.2rem;font-weight:900;color:#0d9488;line-height:1">${pctTer}%</div>
           <div style="font-size:0.7rem;color:var(--sub);margin-top:4px">${fmt(haTotal)} matrículas</div>
         </div>
       </div>
       <div style="background:#eee;border-radius:99px;height:14px;overflow:hidden">
         <div style="display:flex;height:100%">
           <div style="width:${pctInt}%;background:#1565c0;transition:width 0.8s"></div>
-          <div style="width:${pctHag}%;background:#6a1b9a"></div>
-          <div style="width:${pctHA}%;background:#0d9488"></div>
+          <div style="width:${pctTer}%;background:#0d9488"></div>
         </div>
       </div>
-      <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:0.65rem;font-weight:700;flex-wrap:wrap;gap:8px">
+      <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:0.65rem;font-weight:700">
         <span style="color:#1565c0">&#9632; Interno ${pctInt}%</span>
-        <span style="color:#6a1b9a">&#9632; HAG ${pctHag}%</span>
-        <span style="color:#0d9488">&#9632; Home Agent ${pctHA}%</span>
+        <span style="color:#0d9488">&#9632; Terceirizada ${pctTer}%</span>
       </div>
     </div>`;
 
@@ -5085,7 +5077,6 @@ function _renderECUni() {
         <td style="padding:10px 14px;font-weight:800;white-space:nowrap"><span style="color:${p.cor};margin-right:6px">${p.icon}</span>${p.label}</td>
         <td style="padding:10px 14px;text-align:right;font-size:1.05rem;font-weight:900;color:${p.cor}">${fmt(matTotal)}</td>
         <td style="padding:10px 14px;text-align:right;color:var(--sub)">${fmt(d.mat_sede||0)}</td>
-        <td style="padding:10px 14px;text-align:right;color:var(--sub)">${fmt(d.mat_hag||0)}</td>
         <td style="padding:10px 14px;text-align:right;color:#0d9488;font-weight:700">${fmt(haN)}</td>
         <td style="padding:10px 14px;text-align:right;font-weight:700;color:#1565c0">${d.tx_conversao||0}%</td>
         <td style="padding:10px 18px">
@@ -5104,8 +5095,7 @@ function _renderECUni() {
               <th style="padding:10px 14px;text-align:left;font-size:0.65rem;letter-spacing:0.8px;text-transform:uppercase">Produto</th>
               <th style="padding:10px 14px;text-align:right;font-size:0.65rem;letter-spacing:0.8px;text-transform:uppercase">Matrículas</th>
               <th style="padding:10px 14px;text-align:right;font-size:0.65rem;letter-spacing:0.8px;text-transform:uppercase">Interno</th>
-              <th style="padding:10px 14px;text-align:right;font-size:0.65rem;letter-spacing:0.8px;text-transform:uppercase">HAG</th>
-              <th style="padding:10px 14px;text-align:right;font-size:0.65rem;letter-spacing:0.8px;text-transform:uppercase">Home Agent</th>
+              <th style="padding:10px 14px;text-align:right;font-size:0.65rem;letter-spacing:0.8px;text-transform:uppercase">Terceirizada</th>
               <th style="padding:10px 14px;text-align:right;font-size:0.65rem;letter-spacing:0.8px;text-transform:uppercase">Tx. Conv.</th>
               <th style="padding:10px 18px;text-align:left;font-size:0.65rem;letter-spacing:0.8px;text-transform:uppercase;min-width:160px">Part. no Total</th>
             </tr>
@@ -5116,7 +5106,6 @@ function _renderECUni() {
               <td style="padding:10px 14px">TOTAL</td>
               <td style="padding:10px 14px;text-align:right">${fmt(totGeral)}</td>
               <td style="padding:10px 14px;text-align:right">${fmt(totSede)}</td>
-              <td style="padding:10px 14px;text-align:right">${fmt(totHag)}</td>
               <td style="padding:10px 14px;text-align:right">${fmt(haTotal)}</td>
               <td style="padding:10px 14px;text-align:right">${txConvUni}%</td>
               <td style="padding:10px 18px">100%</td>
@@ -5148,18 +5137,16 @@ function _renderECUni() {
   let datasets = [];
   if (visao === 'canal') {
     datasets = [
-      { label:'Interno (Sede)',    data: fonte.interno?.total || [], backgroundColor:'#1565c0' },
-      { label:'HAG (Terceirizada)', data: fonte.hag?.total     || [], backgroundColor:'#6a1b9a' },
-      { label:'Home Agent',        data: fonte.ha?.total       || [], backgroundColor:'#0d9488' },
+      { label:'Interno (Sede)', data: fonte.interno?.total || [], backgroundColor:'#1565c0' },
+      { label:'Terceirizada',    data: fonte.ha?.total       || [], backgroundColor:'#0d9488' },
     ];
   } else {
     const sumByMod = (k) => {
       const a = (fonte.interno?.[k]) || [];
-      const b = (fonte.hag?.[k])     || [];
       const c = (fonte.ha?.[k])      || [];
-      const n = Math.max(a.length, b.length, c.length);
+      const n = Math.max(a.length, c.length);
       const out = [];
-      for (let i=0; i<n; i++) out.push((a[i]||0) + (b[i]||0) + (c[i]||0));
+      for (let i=0; i<n; i++) out.push((a[i]||0) + (c[i]||0));
       return out;
     };
     datasets = [
